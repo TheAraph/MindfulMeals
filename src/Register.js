@@ -92,6 +92,7 @@ const Register = () => {
           gender,
           caloriesConsumed: 0,
           waterDrank: 0,
+          caloriePoints: 0,
           dailyCalories,
           remainingCalories: dailyCalories
         });
@@ -132,6 +133,7 @@ const Register = () => {
           lossOrGain: 0,
           caloriesConsumed : 0,
           waterDrank: 0,
+          caloriePoints: 0,
           gender: 0
         })
       })

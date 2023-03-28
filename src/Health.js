@@ -20,7 +20,8 @@ import Emoji from 'react-native-emoji';
 import firebase from 'firebase/compat';
 import { BarChart } from 'react-native-chart-kit';
 import { CircularProgress } from 'react-native-circular-progress';
-
+import LottieView from 'lottie-react-native';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 const Stack = createStackNavigator();
 
@@ -30,8 +31,10 @@ const Health = () => {
   const [name, setName] = useState('')
   const [totalCalories, setTotalCalories] = useState(0);
   const [remainingCalories, setRemainingCalories] = useState(0);
+  const [caloriePoints, setCaloriePoints] = useState('')
   const [weight, setWeight] = useState([]);
   const [isRemainingCaloriesZero, setIsRemainingCaloriesZero] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     const unsubscribe = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).onSnapshot((snapshot) => {
@@ -39,6 +42,7 @@ const Health = () => {
         setName(snapshot.data().name);
         setTotalCalories(snapshot.data().dailyCalories);
         setRemainingCalories(snapshot.data().remainingCalories);
+        setCaloriePoints(snapshot.data().caloriePoints);
         setWeight(snapshot.data().weight)
         setIsRemainingCaloriesZero(snapshot.data().remainingCalories === 0);
       }
@@ -62,6 +66,7 @@ const Health = () => {
           setTotalCalories(userData.dailyCalories);
           setRemainingCalories(userData.remainingCalories);
           setWeight(userData.weight);
+          setCaloriePoints(userData.caloriePoints);
         } else {
           console.log('User does not exist');
         }
@@ -132,7 +137,55 @@ const Health = () => {
       <ScrollView style = {{backgroundColor: '#FFF'}}> 
     <View style = {{marginTop: 20}}></View>
         <View style={globalStyles.container}>
-          <Text style={globalStyles.Headline5}>"A goal without a{"\n"}plan is just a wish"</Text>
+        <View style = {globalStyles.container}>
+
+      {isRemainingCaloriesZero && (
+          <ConfettiCannon
+            count={200}
+            origin={{ x: -670, y: -1000 }} // set origin to top of screen
+            explosionSpeed={1000}
+            spread={1000}
+            fadeOut
+            fadeOutDelay={3000}
+            style={{ 
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 9999, // set a higher value than other components
+  }}
+          />
+          )}
+          {isRemainingCaloriesZero && (
+  <ConfettiCannon
+    count={200}
+    origin={{ x: 670, y: -1000 }} // set origin to right of screen
+    explosionSpeed={1000}
+    spread={1000}
+    fadeOut
+    fadeOutDelay={3000}
+    style={{ 
+    flex: 1, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    position: 'absolute',
+    zIndex: 9999, // set a higher value than other components
+  }}
+  />
+)}
+          <Text style={globalStyles.Headline6Bold}>Finish your Daily Calories and get</Text>
+          <Text style={[globalStyles.Headline5Bold, {marginTop: 0}]}>100 CALORIE POINTS 🎉</Text>
+          <View style = {{marginTop: 20}}></View>
+          <View style = {[globalStyles.newcontainer, { backgroundColor: '#7C9A3E' }]}>
+          <Text style={[globalStyles.Headline5Bold, {color: '#FFF'}]}>Calorie Points: {caloriePoints}</Text>
+          </View>
+          <View style = {{marginTop: 20}}></View>
+          {remainingCalories === 0 && (
+              <Text style={styles.Headline4Bold}>CONGRATS!{" "}<Emoji name="tada" style={{ fontSize: 24 }} /></Text>
+            )}
+          {remainingCalories === 0 && (
+              <Text style={styles.Headline5Bold}>You hit your calorie goal!</Text>
+            )}
           <Text style={globalStyles.Headline2Black}>Calories</Text>
           <View style={styles.progressBar}>
       <CircularProgress
@@ -148,23 +201,18 @@ const Health = () => {
         >
           {() => (
             <View style={styles.progressText}>
-            <Text style={styles.progressValue}>
+            <Text style={[globalStyles.Headline2Black, {marginTop: 0, fontSize: 48}]}>
             {remainingCalories}
             </Text>
-            <Text style={styles.progressValue}>
+            <Text style={[globalStyles.Headline5Bold, {marginTop: 0}]}>
             Remaining
             </Text>
             </View>
             )}
       </CircularProgress>
+      </View>
     </View>
     <TouchableOpacity style={globalStyles.Button2} onPress={addFood}><Text style = {globalStyles.Button2Text}>Update</Text></TouchableOpacity>
-    {remainingCalories === 0 && (
-              <Text style={styles.Headline4Bold}>CONGRATS!{" "}<Emoji name="tada" style={{ fontSize: 24 }} /></Text>
-            )}
-    {remainingCalories === 0 && (
-              <Text style={styles.Headline5Bold}>You hit your calorie goal!</Text>
-            )}
     <Text style={globalStyles.Headline2Black}>Weight</Text>
           <View style = {globalStyles.newcontainer}>
           <View style = {{marginTop:20}}></View>

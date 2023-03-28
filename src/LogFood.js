@@ -24,6 +24,18 @@ const LogFood = () => {
         })
       }, [])
 
+      useEffect(() => {
+        const userId = firebase.auth().currentUser.uid;
+        if (parseInt(remainingCalories) > 0 && parseInt(remainingCalories) - parseInt(caloriesConsumed) <= 0) {
+            firebase.firestore().collection('users').doc(userId).update({
+                caloriePoints: firebase.firestore.FieldValue.increment(100),
+            })
+            .catch((error) => {
+                console.log('Error updating caloriePoints: ', error);
+            });
+        }
+    }, [caloriesConsumed, remainingCalories])
+
       const updateFood = () => {
         const newRemainingCalories = parseInt(remainingCalories) - parseInt(caloriesConsumed)
         const updatedRemainingCalories = newRemainingCalories < 0 ? 0 : newRemainingCalories
