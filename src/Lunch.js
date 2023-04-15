@@ -7,108 +7,58 @@ import { RefreshControl } from 'react-native';
 import Emoji from 'react-native-emoji';
 import globalStyles from '../global-styles';
 import RecipeDetailsScreen from '../components/RecipeDetailsScreen';
-import Breakfast from './Breakfast';
-import Lunch from './Lunch';
-import Dinner from './Dinner'
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Header from '../components/Header';
 
 const Stack = createStackNavigator();
 
-const Home = () => {
-  const [name, setName] = useState('')
-  const [recipes, setRecipes] = useState([])
+const Lunch = () => {
 
-  const navigation = useNavigation();
+    const navigation = useNavigation();
 
-  const getRecipeDetails = async (recipeId) => {
-    const recipeSnapshot = await firestore()
-      .collection('recipes')
-      .doc(recipeId)
-      .get();
-  
-    const recipeData = recipeSnapshot.data();
-  
-    return recipeData;
-  };
-  
+    const [recipes, setRecipes] = useState([])
+    const getRecipeDetails = async (recipeId) => {
+        const recipeSnapshot = await firestore()
+          .collection('recipes')
+          .doc(recipeId)
+          .get();
+      
+        const recipeData = recipeSnapshot.data();
+      
+        return recipeData;
+      };
 
-  useEffect(() => {
-    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
-      .then((snapshot) => {
-        if (snapshot.exists) {
-          setName(snapshot.data())
-        } else {
-          console.log('User does not exist')
-        }
-      })
-
-    firebase.firestore().collection('recipes').get()
-      .then((querySnapshot) => {
-        const data = []
-        querySnapshot.forEach((doc) => {
-          data.push(doc.data())
-        })
-        setRecipes(data)
-      })
-  }, [])
+      useEffect(() => {
+        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
+          .then((snapshot) => {
+            if (snapshot.exists) {
+              setName(snapshot.data())
+            } else {
+              console.log('User does not exist')
+            }
+          })
+    
+          firebase.firestore().collection('recipes').where('category', '==', 'Lunch').get()
+          .then((querySnapshot) => {
+            const data = []
+            querySnapshot.forEach((doc) => {
+              data.push(doc.data())
+            })
+            setRecipes(data)
+          })
+      }, [])
 
   return (
     <Stack.Navigator>
-        <Stack.Screen 
-          name="Home" 
-          component={() => (
-    <ScrollView style={{ backgroundColor: '#FFF' }}>
-      <View style={{ marginTop: 20 }}></View>
-      <View style={globalStyles.container}>
-        <Text style={[globalStyles.Headline5, {margin: 0, marginTop: 10}]}>Welcome back,</Text>
-        <Text style={globalStyles.Headline4Bold}>{name.firstName} <Emoji name="heart" /></Text>
-        <Text style={globalStyles.Headline6}>Are you ready to <Text style={{ fontFamily: 'Gotham-Bold' }}>take control</Text>{"\n"}of <Text style={{ fontFamily: 'Gotham-Bold' }}>your</Text> wellness journey?</Text>
-      </View>
-      <ScrollView style={{padding: 20}}horizontal={true}>
-
-            <TouchableOpacity 
-            style = {styles.card2}
-            onPress={() => navigation.navigate('Breakfast')}
-            >
-              <Image
-                source = {require('../assets/Smoothie-Bowls-3-ways-10.jpeg')}
-                style={styles.image2}
-              />
-              <Text style={styles.card2text}>Breakfast 🥞</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            style = {styles.card2}
-            onPress={() => navigation.navigate('Lunch')}
-            >  
-            <Image
-                source = {require('../assets/veggie-wrap-recipe.jpeg')}
-                style={styles.image2}
-              />
-              <Text style={styles.card2text}>Lunch 🌯</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity 
-            style = {styles.card2}
-            onPress={() => navigation.navigate('Dinner')}
-            >
-              <Image
-                source = {require('../assets/Ham-Cheese-Stuffed-Chicken-Breasts.jpeg')}
-                style={styles.image2}
-              />
-              <Text style={styles.card2text}>Dinner 🍗</Text>
-            </TouchableOpacity>
-
-            <View style={{ marginRight: 20 }}></View>
-
-      </ScrollView>
-      <Text style={[globalStyles.Headline5Bold, { marginLeft: 30 }]}>New Recipes</Text>
-      <View style={globalStyles.container}>
-        <View style={{ marginTop: 20 }}></View>
-
-  {recipes.reverse().map((item) => (
+    <Stack.Screen 
+      name="Lunch" 
+      component={() => (
+    <ScrollView style={{ backgroundColor: '#FFF', padding: 20 }}>
+<View style = {globalStyles.container}>
+<Text style = {[globalStyles.Headline3Bold, {color: "#0072C6"}]}>Lunch 🌯</Text>
+<View style = {{marginTop:10}}></View>
+{recipes.map((item) => (
     <TouchableOpacity
       key={item.id}
       style={styles.card1}
@@ -125,10 +75,16 @@ const Home = () => {
     </Text>
     </TouchableOpacity>
   ))}
-      </View>
+</View>
     </ScrollView>
     )}
-  options={{ headerShown: false }} 
+    options={{
+          headerTitle: () => <Header name = "Lunch"/>,
+          headerStyle: {
+            height:60,
+            backgroundColor: '#0072C6',
+          },
+          headerShown: false}}
         />
         <Stack.Screen 
           name="RecipeDetailsScreen" 
@@ -142,47 +98,11 @@ const Home = () => {
           headerShown: false
         }}
         />
-        <Stack.Screen 
-          name="Breakfast" 
-          component={Breakfast} 
-          options={{
-          headerTitle: () => <Header name = "Breakfast"/>,
-          headerStyle: {
-            height:60,
-            backgroundColor: '#0072C6',
-          },
-          headerShown: false
-        }}
-        />
-        <Stack.Screen 
-          name="Lunch" 
-          component={Lunch} 
-          options={{
-          headerTitle: () => <Header name = "Lunch"/>,
-          headerStyle: {
-            height:60,
-            backgroundColor: '#0072C6',
-          },
-          headerShown: false
-        }}
-        />
-        <Stack.Screen 
-          name="Dinner" 
-          component={Dinner} 
-          options={{
-          headerTitle: () => <Header name = "Dinner"/>,
-          headerStyle: {
-            height:60,
-            backgroundColor: '#0072C6',
-          },
-          headerShown: false
-        }}
-        />
         </Stack.Navigator>
   )
 }
 
-export default Home
+export default Lunch
 
 const styles = StyleSheet.create({
   container:{

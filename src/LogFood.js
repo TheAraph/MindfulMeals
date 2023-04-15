@@ -36,22 +36,23 @@ const LogFood = () => {
         }
     }, [caloriesConsumed, remainingCalories])
 
-      const updateFood = () => {
-        const newRemainingCalories = parseInt(remainingCalories) - parseInt(caloriesConsumed)
-        const updatedRemainingCalories = newRemainingCalories < 0 ? 0 : newRemainingCalories
-        firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
-        remainingCalories: updatedRemainingCalories
-       })
+    const updateFood = () => {
+      const newRemainingCalories = parseInt(remainingCalories) - parseInt(caloriesConsumed)
+      const updatedRemainingCalories = newRemainingCalories < 0 ? 0 : newRemainingCalories
+      const updateTimes = firebase.firestore.FieldValue.arrayUnion(new Date().toISOString()) // Add current date and time to the updateTimes array
+      firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).update({
+          remainingCalories: updatedRemainingCalories,
+          updateTimes: updateTimes // Add updateTimes array to Firestore document
+      })
       .then(() => {
-        setRemainingCalories(updatedRemainingCalories.toString())
-        setCaloriesConsumed('')
-        alert('Calories successfully subtracted!')
-        navigation.navigate('Health');
-        })
+          setRemainingCalories(updatedRemainingCalories.toString())
+          setCaloriesConsumed('')
+          navigation.navigate('Health');
+      })
       .catch((error) => {
-        console.log('Error updating remaining calories:', error)
-        })
-      }
+          console.log('Error updating remaining calories:', error)
+      })
+  }
 
 
   return (

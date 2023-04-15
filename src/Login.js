@@ -3,13 +3,38 @@ import React, {useState} from 'react'
 import { useNavigation } from '@react-navigation/native'
 import {firebase} from '../config'
 import globalStyles from '../global-styles.js'
-
+import * as Font from 'expo-font';
+import { useEffect } from 'react'
+import { ScrollView } from 'react-native-gesture-handler'
+import Signin from './Signin'
 
 const Login = () => {
     //login variables
   const navigation = useNavigation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
+
+  /*const [isFontLoaded, setIsFontLoaded] = useState(false)
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Gotham-Black': require('../assets/fonts/Gotham-Black.otf'),
+        'Gotham-Bold': require('../assets/fonts/Gotham-Bold.otf'),
+        'Gotham-Light': require('../assets/fonts/Gotham-Light.otf'),
+      });
+      setIsFontLoaded(true)
+    }
+
+    loadFonts();
+  }, [])
+
+  if (!isFontLoaded) {
+    return null // Return a blank screen or a loading spinner while the font is loading
+  }
+
+  */
 
   //login function
   loginUser = async (email, password) => {
@@ -32,54 +57,29 @@ const Login = () => {
   }
 
   return (
-    <View style = {globalStyles.container}>
-        <Text style={globalStyles.MindfulMeals}>MINDFUL MEALS</Text>
-        <Text style={globalStyles.Headline5Bold}>Healthy habits, happy life</Text>
-        <View style = {{marginTop: 20}}></View>
-        <View style={{ alignSelf: 'flex-start', marginLeft: 30 }}>
-        <Text style={globalStyles.Headline6Bold}>Your email address:</Text>
-        </View>
-        <TextInput
-            style={globalStyles.textInput}
-            placeholder="example@email.com"
-            onChangeText={(email) => setEmail(email)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            keyboardType="email-address"
+    <ScrollView style = {{backgroundColor: "#FFF"}}>
+    <View style = {[globalStyles.container, {bottom: 100}]}>
+    <Image
+          style={{ height: 500, width: 500 }}
+          source={require('../assets/finalpls.png')}
+          onLoad={() => setIsImageLoaded(true)} // Set isImageLoaded to true when the image has finished loading
         />
-        <View style = {{marginTop: 20}}></View>
-        <View style={{ alignSelf: 'flex-start', marginLeft: 30 }}>
-        <Text style={globalStyles.Headline6Bold}>Your password:</Text>
-        </View>
-        <TextInput
-            style={globalStyles.textInput}
-            placeholder="min. 4 characters"
-            onChangeText={(password) => setPassword(password)}
-            autoCapitalize="none"
-            autoCorrect={false}
-            secureTextEntry={true}
-        />
-        <View style = {{marginTop: 20}}></View>
-        <TouchableOpacity 
-            style = {globalStyles.Button}
-            onPress = {() => loginUser(email, password)}>
-            <Text style = 
-                {globalStyles.ButtonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-            style = {globalStyles.Button2}
-            onPress = {() => {forgotPassword()}}>
-            <Text style = {globalStyles.Button2TextGreen}>Forgot Password</Text>
-            
-        </TouchableOpacity>
-        <View style = {{marginTop: 20}}></View>
-        <TouchableOpacity
-            style = {globalStyles.Button2}
-            onPress = {() => navigation.navigate('Register')}>
-            <Text style = {globalStyles.Button2Text}>Create A New Account</Text>
-            
-        </TouchableOpacity>
+        {isImageLoaded && ( // Only render the following if the image has finished loading
+          <>
+            <Text style={globalStyles.MindfulMeals}>MINDFUL MEALS</Text>
+            <Text style={[globalStyles.Headline5Bold, { color: '#33A133' }]}>
+              A mindful health platform
+            </Text>
+            <View style={{ marginTop: 80 }}></View>
+            <TouchableOpacity
+              style={globalStyles.Button}
+              onPress={() => navigation.navigate('Signin')}>
+              <Text style={globalStyles.ButtonText}>Get Started</Text>
+            </TouchableOpacity>
+          </>
+        )}
     </View>
+    </ScrollView>
   )
 }
 

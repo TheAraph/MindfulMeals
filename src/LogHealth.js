@@ -73,6 +73,7 @@ const LogHealth = () => {
         dailyCalories: dailyCalories,
         exerciseValue: exerciseValue,
         remainingCalories: dailyCalories,
+        lastUpdated: new Date().toISOString()
       });
 
       navigation.navigate("Health");

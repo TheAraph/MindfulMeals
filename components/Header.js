@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
       marginTop:100,
   },
     HeaderText:{
-      fontFamily: "Helvetica",
-      fontSize: 30,
+      fontFamily: "Gotham-Bold",
+      fontSize: 34,
       color: "#F0F0F0",
       margin: 10,
       fontWeight: 'bold',

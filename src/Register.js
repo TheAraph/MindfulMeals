@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import globalStyles from '../global-styles.js'
 import Emoji from 'react-native-emoji';
 import { Picker } from '@react-native-picker/picker'
+import LogHealth from './LogHealth'
 
 const Register = () => {
 
@@ -134,7 +135,8 @@ const Register = () => {
           caloriesConsumed : 0,
           waterDrank: 0,
           caloriePoints: 0,
-          gender: 0
+          gender: 0,
+          lastUpdated: new Date().toISOString()
         })
       })
       .catch((error) => {
@@ -158,14 +160,19 @@ return(
   <ScrollView>
   <View style = {globalStyles.container}>
   <View style = {{marginTop: 70}}></View>
+  <Image 
+    style={{height: 100, width: 100}} 
+    source={require('../assets/Logo.png')}>
+    </Image>
   <Text style={globalStyles.MindfulMeals}>MINDFUL MEALS</Text>
-        <Text style={globalStyles.Headline5Bold}>Healthy habits, happy life</Text>
-        <View style = {{marginTop: 20}}></View>
-        <Text style={globalStyles.Headline5}>It's great to meet you!</Text>
-        <Text style={globalStyles.Headline5}>Please enter your details <Emoji name="smiley" /></Text>
+        <Text style={[globalStyles.Headline5Bold, {color: "#33A133"}]}>Healthy habits, happy life.</Text>
+        <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>It's great to meet you!{"\n"}Please enter your details <Emoji name="smiley" /></Text>
+        <Text style={[globalStyles.Headline6Bold, {textAlign: 'center', color: "#FF4D4D"}]}>
+        Reminder: Please register using fake data so that the app doesn't record any of your personal information
+        </Text>
         <View style = {{marginTop: 10}}>
         <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your first name:</Text>
+        <Text style={globalStyles.Headline6Bold}>Fake Name:</Text>
         </View>
         <TextInput
             style={globalStyles.textInput}
@@ -174,7 +181,7 @@ return(
             autoCorrect={false}
         />
         <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your last name:</Text>
+        <Text style={globalStyles.Headline6Bold}>Fake Surname:</Text>
         </View>
         <TextInput
             style={globalStyles.textInput}
@@ -183,7 +190,7 @@ return(
             autoCorrect={false}
         />
         <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your email address:</Text>
+        <Text style={globalStyles.Headline6Bold}>Fake Email Address:</Text>
         </View>
         <TextInput
             style={globalStyles.textInput}
@@ -194,7 +201,7 @@ return(
             keyboardType="email-address"
         />
         <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your password:</Text>
+        <Text style={globalStyles.Headline6Bold}>Choose a password:</Text>
         </View>
         <TextInput
             style={globalStyles.textInput}
@@ -205,94 +212,10 @@ return(
             secureTextEntry={true}
         />
         </View>
-        <Text style={globalStyles.Headline5}>Tell us about your goals!</Text>
-        <View style = {{marginTop: 10}}>
-        <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your age:</Text>
-        </View>
-        <TextInput
-            style={globalStyles.textInput}
-            placeholder="Age"
-            onChangeText={(age) => setAge(age)}
-            autoCorrect={false}
-            keyboardType="number-pad"
-        />
-        <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your current weight in kg:</Text>
-        </View>
-        <TextInput
-            style={globalStyles.textInput}
-            placeholder="50kg for example"
-            onChangeText={(weight) => setWeight(weight)}
-            autoCorrect={false}
-            keyboardType="number-pad"
-        />
-        <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your current height in cm:</Text>
-        </View>
-        <TextInput
-            style={globalStyles.textInput}
-            placeholder="170cm for example"
-            onChangeText={(height) => setHeight(height)}
-            autoCorrect={false}
-            keyboardType="number-pad"
-        />
-        <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Your water goal in Litres:</Text>
-        </View>
-        <TextInput
-            style={globalStyles.textInput}
-            placeholder="2L for example"
-            onChangeText={(waterGoal) => setWaterGoal(waterGoal)}
-            autoCorrect={false}
-            keyboardType="number-pad"
-        />
-        <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>What is your gender?</Text>
-        </View>
-          <Picker
-        selectedValue={gender}
-        onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
-        style={{ justifyContent: 'center', borderWidth: 1, borderColor: 'black', borderRadius: 30, alignSelf: 'center', width: 320 }}>
-        <Picker.Item label="Male" value="Male" />
-        <Picker.Item label="Female" value="Female" />
-        <Picker.Item label="Other" value="Other" />
-        </Picker>
-        <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>How much do you exercise?</Text>
-        </View>
-        <Picker
-        selectedValue={exerciseLevel}
-        onValueChange={(itemValue, itemIndex) => setExerciseLevel(itemValue)}
-        style={{ justifyContent: 'center', borderWidth: 1, borderColor: 'black', borderRadius: 30, alignSelf: 'center', width: 320 }}
-        >
-          <Picker.Item label="Sedentary" value="Sedentary" />
-          <Picker.Item label="Lightly Active" value="Lightly Active" />
-          <Picker.Item label="Moderately Active" value="Moderately Active" />
-          <Picker.Item label="Very Active" value="Very Active" />
-          <Picker.Item label="Extra Active" value="Extra Active" />
-          </Picker>
-          <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>Would you like to lose or gain weight?</Text>
-        </View>
-        <Picker
-        selectedValue={lossOrGain}
-        onValueChange={(itemValue, itemIndex) => setLossOrGain(itemValue)}
-        style={{ justifyContent: 'center', borderWidth: 1, borderColor: 'black', borderRadius: 30, alignSelf: 'center', width: 320 }}
-        >
-          <Picker.Item label="Lose" value="lose" />
-          <Picker.Item label="Gain" value="gain" />
-          </Picker>
+        <View style = {{marginTop: 20}}></View>
           <TouchableOpacity
-            style = {{marginTop:20, alignItems:"center"}}
-            onPress = {() => registerUserNoTrack(email, password, firstName, lastName)}>
-            <Text style = {globalStyles.Button3Text}>Don't Track My Goals & Calories</Text>
-            
-        </TouchableOpacity>
-        <View style = {{marginBottom: 40}}></View>
-        <TouchableOpacity 
             style = {globalStyles.Button}
-            onPress = {() => registerUser(email, password, firstName, lastName, weight, height, waterGoal, age, exerciseLevel, lossOrGain, gender)}>
+            onPress = {() => registerUserNoTrack(email, password, firstName, lastName)}>
             <Text style = 
                 {globalStyles.ButtonText}>Sign Up</Text>
         </TouchableOpacity>
@@ -303,7 +226,6 @@ return(
             
         </TouchableOpacity>
         <View style = {{marginBottom: 100}}></View>
-    </View>
     </View>
     </ScrollView>
 )

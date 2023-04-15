@@ -5,9 +5,6 @@ import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Pressable, Button, TextInput, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native'
-import Weight from "../src/Weight";
-import FoodDrink from "../src/FoodDrink";
-import Sleep from "../src/Sleep";
 import LogWeight from "../src/LogWeight";
 import LogHealth from "../src/LogHealth";
 import LogFood from "../src/LogFood"
@@ -22,6 +19,7 @@ import { BarChart } from 'react-native-chart-kit';
 import { CircularProgress } from 'react-native-circular-progress';
 import LottieView from 'lottie-react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
+import { Video } from 'expo-av';
 
 const Stack = createStackNavigator();
 
@@ -74,15 +72,32 @@ const Health = () => {
   }, []);
 
   useEffect(() => {
-    const resetRemainingCalories = () => {
-      const date = new Date();
-      if (date.getHours() === 0 && date.getMinutes() === 0) {
-        setRemainingCalories(totalCalories);
+    const checkAndUpdateRemainingCalories = async () => {
+      const userDoc = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid);
+    
+      const userSnapshot = await userDoc.get();
+      if (userSnapshot.exists) {
+        const userData = userSnapshot.data();
+        const lastUpdated = new Date(userData.lastUpdated);
+        const currentDate = new Date();
+    
+        // Extract only the date part from the lastUpdated and currentDate
+        const lastUpdatedDate = new Date(lastUpdated.getFullYear(), lastUpdated.getMonth(), lastUpdated.getDate());
+        const currentDateDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+    
+        if (currentDateDate.getTime() > lastUpdatedDate.getTime()) { // check if the lastUpdated date is before the current date
+          await userDoc.update({
+            remainingCalories: userData.dailyCalories,
+            lastUpdated: currentDate.toISOString(), // update lastUpdated date to current date
+          });
+          setRemainingCalories(userData.dailyCalories); // update remainingCalories state
+        }
       }
     };
-    const interval = setInterval(resetRemainingCalories, 60 * 1000); // check every minute
-    return () => clearInterval(interval);
-  }, [totalCalories]);
+  
+    checkAndUpdateRemainingCalories();
+  }, []);
+
   
   const addWeight = () => {
     navigation.navigate('LogWeight');
@@ -102,8 +117,11 @@ const Health = () => {
           name="Health"
           component={() => (
             <View style={globalStyles.container}>
-            <Text style={globalStyles.Headline2Black}>Oops! <Emoji name = "smiley"></Emoji></Text>
-            <Text style={globalStyles.Headline5Bold}>It seems that you have{"\n"}chosen to not track your{"\n"}calories and health data</Text>
+            <Text style={globalStyles.Headline2Black}>Oops! 😄</Text>
+            <Text style={[globalStyles.Headline5Bold, {textAlign: 'center'}]}>It seems that you have{"\n"}not chosen to track your{"\n"}calories and health data yet</Text>
+            <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>To start tracking, tap the button{"\n"}below & enter your details!</Text>
+            <View style = {{marginTop:40}}></View>
+            <Text style={[globalStyles.Headline6, {textAlign: 'center'}]}>Note: You<Text style={{ fontWeight: 'bold' }}> don't</Text> have to track your health{"\n"}data if you don't want to <Emoji name = "wink"></Emoji></Text>
             <TouchableOpacity 
             style={globalStyles.Button}
             onPress={() => navigation.navigate('LogHealth')}
@@ -118,10 +136,11 @@ const Health = () => {
           name="LogHealth" 
           component={LogHealth} 
           options={{
+            headerShown: false,
           headerTitle: () => <Header name = "Log Health"/>,
           headerStyle: {
             height:60,
-            backgroundColor: '#6EB7F7',
+            backgroundColor: '#0072C6',
           }
         }}
         />
@@ -137,6 +156,22 @@ const Health = () => {
       <ScrollView style = {{backgroundColor: '#FFF'}}> 
     <View style = {{marginTop: 20}}></View>
         <View style={globalStyles.container}>
+        {remainingCalories === totalCalories && (
+              <Text style={[globalStyles.Headline6, {color: "#000", textAlign: 'center'}]}><Text style = {[globalStyles.Headline5Bold, {color: "#FF4D4D"}]}>Start your day off well! 🍳</Text></Text>
+            )}
+        {(remainingCalories > totalCalories * 0.75 && remainingCalories < totalCalories - 0.01) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're doing great 😄{'\n'}<Text style = {[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>Keep it up!</Text></Text>
+            )}
+            {(remainingCalories > totalCalories * 0.51 && remainingCalories < totalCalories * 0.74) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're making progress 💪{'\n'}<Text style = {[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>Well done!</Text></Text>
+            )}
+            {(remainingCalories > totalCalories * 0.26 && remainingCalories < totalCalories * 0.50) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're over half way there 🤩{'\n'}<Text style = {[globalStyles.Headline4Bold, {color: "#FF4D4D"}]}>That's Amazing!</Text></Text>
+            )}
+            {(remainingCalories > 0 && remainingCalories < totalCalories * 0.25) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You are so close, just a{'\n'}few more to go 👏{'\n'}<Text style = {[globalStyles.Headline4Bold, {color: "#FF4D4D"}]}>You can do this!</Text></Text>
+            )}
+            <View style = {{marginTop: 0}}></View>
         <View style = {globalStyles.container}>
 
       {isRemainingCaloriesZero && (
@@ -147,6 +182,13 @@ const Health = () => {
             spread={1000}
             fadeOut
             fadeOutDelay={3000}
+            colors={[
+              '#0072C6', // blue
+              '#33A133', // green
+              '#A040A0', // purple
+              '#7F7F7F', // gray
+              '#FF4D4D', // red
+            ]}
             style={{ 
     flex: 1, 
     alignItems: 'center', 
@@ -164,6 +206,13 @@ const Health = () => {
     spread={1000}
     fadeOut
     fadeOutDelay={3000}
+    colors={[
+    '#0072C6', // blue
+    '#33A133', // green
+    '#A040A0', // purple
+    '#7F7F7F', // gray
+    '#FF4D4D', // red
+  ]}
     style={{ 
     flex: 1, 
     alignItems: 'center', 
@@ -174,25 +223,25 @@ const Health = () => {
   />
 )}
           <Text style={globalStyles.Headline6Bold}>Finish your Daily Calories and get</Text>
-          <Text style={[globalStyles.Headline5Bold, {marginTop: 0}]}>100 CALORIE POINTS 🎉</Text>
+          <Text style={[globalStyles.Headline5Bold, {marginTop: 0}]}>100 CALORIE POINTS 🥇</Text>
           <View style = {{marginTop: 20}}></View>
-          <View style = {[globalStyles.newcontainer, { backgroundColor: '#7C9A3E' }]}>
+          <View style = {[globalStyles.newcontainer, { backgroundColor: '#33A133' }]}>
           <Text style={[globalStyles.Headline5Bold, {color: '#FFF'}]}>Calorie Points: {caloriePoints}</Text>
           </View>
           <View style = {{marginTop: 20}}></View>
           {remainingCalories === 0 && (
-              <Text style={styles.Headline4Bold}>CONGRATS!{" "}<Emoji name="tada" style={{ fontSize: 24 }} /></Text>
+              <Text style={[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>CONGRATS!{" "}<Emoji name="tada"/></Text>
             )}
           {remainingCalories === 0 && (
-              <Text style={styles.Headline5Bold}>You hit your calorie goal!</Text>
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D"}]}>You hit your calorie goal!</Text>
             )}
-          <Text style={globalStyles.Headline2Black}>Calories</Text>
+          <Text style={globalStyles.Headline2Black}>Calories 🔥</Text>
           <View style={styles.progressBar}>
       <CircularProgress
         size={200}
         width={8}
         fill={remainingCaloriesPercentage}
-        tintColor="#6EB7F7"
+        tintColor="#0072C6"
         backgroundColor="#e3e3e3"
         rotation={0}
         lineCap="round"
@@ -210,10 +259,11 @@ const Health = () => {
             </View>
             )}
       </CircularProgress>
+      <View style = {{marginTop: 20}}></View>
+      <TouchableOpacity style={globalStyles.Button2} onPress={addFood}><Text style = {[globalStyles.Button2Text, {color: "#33A133", marginBottom: -20}]}>Update</Text></TouchableOpacity>
       </View>
     </View>
-    <TouchableOpacity style={globalStyles.Button2} onPress={addFood}><Text style = {globalStyles.Button2Text}>Update</Text></TouchableOpacity>
-    <Text style={globalStyles.Headline2Black}>Weight</Text>
+    <Text style={globalStyles.Headline2Black}>Weight 💪</Text>
           <View style = {globalStyles.newcontainer}>
           <View style = {{marginTop:20}}></View>
           <BarChart
@@ -233,9 +283,9 @@ const Health = () => {
     height: 5000,
     backgroundGradientFrom: '#FFF',
     backgroundGradientTo: '#FFF',
-    color: (opacity = 1) => `#6EB7F7`,
-    barPercentage: 0.7,
-    fillShadowGradient: `#6EB7F7`,
+    color: (opacity = 1) => `#0072C6`,
+    barPercentage: 1,
+    fillShadowGradient: `#0072C6`,
     fillShadowGradientOpacity: 1,
     useShadowColorFromDataset: false,
     decimalPlaces: 0,
@@ -244,7 +294,7 @@ const Health = () => {
 
     style: {
       borderRadius: 16,
-      fontFamily: "Helvetica",
+      fontFamily: "Gotham-Light",
     },
     propsForBackgroundLines: {
       strokeWidth: 1,
@@ -259,12 +309,19 @@ const Health = () => {
   showValuesOnTopOfBars={true}
   verticalLabelRotation={0}
     />
+    <TouchableOpacity style={globalStyles.Button2} onPress={addWeight}><Text style = {[globalStyles.Button2Text, {color: "#33A133"}]}>New Weight Entry</Text></TouchableOpacity>
+        
     </View>
       
         <View style = {{marginTop:20, justifyContent: 'center', alignSelf: 'center'}}><Text style={globalStyles.Headline5}>You're on the right track!</Text></View>
-        <View style = {{justifyContent: 'center', alignSelf: 'center'}}><Text style={globalStyles.Headline5}>Just keep pushing <Emoji name = "fire"></Emoji></Text></View>
+        <View style = {{justifyContent: 'center', alignSelf: 'center'}}><Text style={globalStyles.Headline5}>Just <Text style = {globalStyles.Headline5Bold}>keep pushing</Text> <Emoji name = "fire"></Emoji></Text></View>
         <View style = {{marginTop:20}}></View>
-        <TouchableOpacity style={globalStyles.Button2} onPress={addWeight}><Text style = {globalStyles.Button2Text}>New Weight Entry</Text></TouchableOpacity>
+        <TouchableOpacity 
+            style={globalStyles.Button}
+            onPress={() => navigation.navigate('LogHealth')}
+              >
+            <Text style={styles.ButtonText}>Change Goals</Text>
+            </TouchableOpacity>
       </View>
     </ScrollView> 
   )}
@@ -275,10 +332,11 @@ const Health = () => {
           name="LogFood" 
           component={LogFood} 
           options={{
+            headerShown: false ,
           headerTitle: () => <Header name = "Log Food"/>,
           headerStyle: {
             height:60,
-            backgroundColor: '#6EB7F7',
+            backgroundColor: '#0072C6',
           }
         }}
         />
@@ -286,10 +344,11 @@ const Health = () => {
           name="LogWeight" 
           component={LogWeight} 
           options={{
+            headerShown: false ,
           headerTitle: () => <Header name = "Log Weight"/>,
           headerStyle: {
             height:60,
-            backgroundColor: '#6EB7F7',
+            backgroundColor: '#0072C6',
           }
         }}
         />
@@ -297,10 +356,11 @@ const Health = () => {
           name="LogHealth" 
           component={LogHealth} 
           options={{
+            headerShown: false ,
           headerTitle: () => <Header name = "Log Health"/>,
           headerStyle: {
             height:60,
-            backgroundColor: '#6EB7F7',
+            backgroundColor: '#0072C6',
           }
         }}
         />
@@ -341,23 +401,23 @@ const styles = StyleSheet.create({
     color: '#9B9B9B',
   },
   Headline5Bold:{
-    fontFamily: "Arial",
+    fontFamily: "Gotham-Bold",
     fontSize: 24,
-    color: "#D5342B",
+    color: "#FF4D4D",
     margin: 10,
     alignItems: "center",
     fontWeight: 'bold'
   },
   Headline4Bold:{
-    fontFamily: "Helvetica",
+    fontFamily: "Gotham-Bold",
     fontSize: 34,
-    color: "#D5342B",
+    color: "#FF4D4D",
     margin: 10,
     alignItems: "center",
     fontWeight: 'bold'
   },
   ButtonText:{
-    fontFamily: "Helvetica",
+    fontFamily: "Gotham-Bold",
     fontSize: 24,
     fontWeight: 'bold',
     color: '#fff',

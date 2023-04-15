@@ -2,10 +2,7 @@ import Header from "../components/Header";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Pressable, Button, TextInput, Image } from 'react-native';
-import { AboutScreen } from "./About"
-import { ContactScreen } from "./Contact"
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ProfileScreen } from "./Profile";
 import { useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import firebase from "firebase/compat";
@@ -70,17 +67,18 @@ const PersonalInfo = () => {
 
   return (
     <View style={globalStyles.container}>
-    <View style={globalStyles.infoBox}>
-       <Text style={globalStyles.Headline4Bold}>{name.firstName} {name.lastName}</Text>
-       <Text style={globalStyles.Headline6}>{name.email}</Text>
+    <View style={[globalStyles.infoBox, {width: 340, height: 150}]}>
+       <Text style={globalStyles.Headline3Bold}>{name.firstName} {name.lastName}</Text>
+       <Text style={[globalStyles.Headline5]}>{name.email}</Text>
     </View>
     <View style = {{marginTop:40}}></View>
     <TouchableOpacity onPress={() => changePassword()} style={globalStyles.Button2}>
        <Text style={globalStyles.Button2Text}>Change Password</Text>
     </TouchableOpacity>
     <TouchableOpacity onPress={() => deleteAccount()} style={globalStyles.Button2}>
-    <Text style={globalStyles.Button2TextGreen}>Delete Account</Text>
+    <Text style={[globalStyles.Button2Text, {color: "#D5342B"}]}>Delete Account</Text>
     </TouchableOpacity>
+    <View style = {{marginTop:60}}></View>
     <TouchableOpacity 
        style = {globalStyles.Button}
        onPress = {() => {firebase.auth().signOut()}}>

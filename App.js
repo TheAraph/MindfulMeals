@@ -9,25 +9,49 @@ import globalStyles from './global-styles'
 
 import Login from "./src/Login";
 import Register from "./src/Register"
+import Signin from "./src/Signin";
+import Onboarding1 from "./src/Onboarding1";
+import Onboarding2 from "./src/Onboarding2";
+import Onboarding3 from "./src/Onboarding3";
+import Onboarding4 from "./src/Onboarding4";
 import Home from "./src/Home";
 import Header from "./components/Header";
 import Health from "./src/Health";
 import Resources from "./src/Resources";
 import PersonalInfo from "./src/PersonalInfo";
-import MainContainer from "./src/mainContainer";
 import { Button } from "react-native";
 import { StyleSheet } from "react-native";
 import { View } from "react-native";
 import { Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { ProfileScreen } from "./src/Profile";
 import LogWeight from "./src/LogWeight";
+import LogHealth from "./src/LogHealth";
+import * as Font from 'expo-font';
 
 const Stack = createStackNavigator();
 
 function App(){
+  
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+
+  const [isFontLoaded, setIsFontLoaded] = useState(false)
+
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        'Gotham-Black': require('./assets/fonts/Gotham-Black.otf'),
+        'Gotham-Bold': require('./assets/fonts/Gotham-Bold.otf'),
+        'Gotham-Light': require('./assets/fonts/Gotham-Light.otf'),
+        'Gotham-Medium': require('./assets/fonts/GothamMedium.ttf')
+      });
+      setIsFontLoaded(true)
+    }
+
+    loadFonts();
+  }, [])
+
+
 
   //Handle user state changes
   function onAuthStateChanged(user){
@@ -43,6 +67,10 @@ function App(){
 
   if (initializing) return null;
 
+  if (!isFontLoaded) {
+    return null // Return a blank screen or a loading spinner while the font is loading
+  }
+
   //If user is not logged in, show only login and signup pages
   if (!user){
     return (
@@ -57,6 +85,47 @@ function App(){
 
           />
         <Stack.Screen 
+          name="Signin" 
+          component={Signin} 
+          
+          options={{ 
+            headerShown: false 
+          }}
+
+          />
+          <Stack.Screen 
+          name = "Onboarding1" 
+          component = {Onboarding1}
+
+          options={{ 
+            headerShown: false 
+          }}
+          />
+          <Stack.Screen 
+          name = "Onboarding2" 
+          component = {Onboarding2}
+
+          options={{ 
+            headerShown: false 
+          }}
+          />
+          <Stack.Screen 
+          name = "Onboarding3" 
+          component = {Onboarding3}
+
+          options={{ 
+            headerShown: false 
+          }}
+          />
+          <Stack.Screen 
+          name = "Onboarding4" 
+          component = {Onboarding4}
+
+          options={{ 
+            headerShown: false 
+          }}
+          />
+        <Stack.Screen 
           name = "Register" 
           component = {Register}
 
@@ -64,7 +133,6 @@ function App(){
             headerShown: false 
           }}
           />
-
       </Stack.Navigator>
     );
   }
@@ -103,13 +171,13 @@ function App(){
         },
     })}
     tabBarOptions={{
-        activeTintColor: '#6EB7F7',
+        activeTintColor: '#0072C6',
         inactiveTintColor: 'grey',
         tabBarVisible: false,
         // height: 80,
         // borderTopLeftRadius: 30,
         // borderTopRightRadius: 30,
-        labelStyle: { fontFamily: 'Helvetica',
+        labelStyle: { fontFamily: 'Gotham-Light',
         fontSize: 14,
         color: '#000000',
         }
@@ -120,43 +188,43 @@ function App(){
     name={homeName} 
     component={Home} 
     options={{
-          headerTitle: () => <Header name = "Home"/>,
+          headerTitle: () => <Header name = "Home 😋"/>,
           headerStyle: {
-            height:98,
-            backgroundColor: "#6EB7F7",
+            height:110,
+            backgroundColor: "#0072C6",
             shadowColor: '#000',
-            shadowRadius: 10,
+            shadowRadius: 5,
             elevation: 25
           }
         }}
     />
     <Tab.Screen name={healthName} component={Health} options={{
-          headerTitle: () => <Header name = "Health"/>,
+          headerTitle: () => <Header name = "My Health ❤️"/>,
           headerStyle: {
-            height:98,
-            backgroundColor: "#6EB7F7",
+            height:110,
+            backgroundColor: "#0072C6",
             shadowColor: '#000',
-            shadowRadius: 10,
+            shadowRadius: 5,
             elevation: 25
           }
         }}/>
     <Tab.Screen name={infoName} component={Resources} options={{
-          headerTitle: () => <Header name = "Resources"/>,
+          headerTitle: () => <Header name = "Resources 📝"/>,
           headerStyle: {
-            height:98,
-            backgroundColor: "#6EB7F7",
+            height:110,
+            backgroundColor: "#0072C6",
             shadowColor: '#000',
-            shadowRadius: 10,
+            shadowRadius: 5,
             elevation: 25
           }
         }}/>
     <Tab.Screen name={profileName} component={PersonalInfo}  options={{
-          headerTitle: () => <Header name = "Account"/>,
+          headerTitle: () => <Header name = "Account 🤗"/>,
           headerStyle: {
-            height:98,
-            backgroundColor: "#6EB7F7",
+            height:110,
+            backgroundColor: "#0072C6",
             shadowColor: '#000',
-            shadowRadius: 10,
+            shadowRadius: 5,
             elevation: 25
           }
         }}/>

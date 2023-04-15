@@ -2,44 +2,39 @@ import { View, TouchableOpacity, Text, Image, StyleSheet, Linking } from 'react-
 import React from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import globalStyles from '../global-styles'
+import { useState, useEffect } from 'react';
+import firebase from 'firebase/compat';
 
 const Resources = () => {
+
+  const [resources, setResources] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = firebase.firestore().collection('resources')
+      .onSnapshot((snapshot) => {
+        const data = snapshot.docs.map((doc) => doc.data());
+        setResources(data);
+      });
+    return () => unsubscribe();
+  }, []);
+
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: '#FFF' }}>
+         <View style={globalStyles.container}>
     <View style = {{marginTop:20}}>
-     <View style={globalStyles.container}>
 
-     <TouchableOpacity style={globalStyles.card1} onPress={() => {Linking.openURL("https://docs.google.com/forms/d/e/1FAIpQLSfV1mDgvAM1WyP96T-Ngw5j5TfaUIbuOzZxFshwc7ntmLnZcA/viewform?usp=sf_link")}}>
-        <Image
-          source = {require('../assets/Hotjar-how-to-conduct-surveys.width-1500.jpg')}
-          style={globalStyles.image}
-        />
-        <Text style={globalStyles.cardtext}>Usability Study Form</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity style={globalStyles.card1} onPress={() => {Linking.openURL("https://www.cq-partners.com/blog/gain-vs-loss-framed-messaging-what-do-patients-best-respond-to/")}}>
-        <Image
-          source = {require('../assets/gym.jpeg')}
-          style={globalStyles.image}
-        />
-        <Text style={globalStyles.cardtext}>Blog: Loss vs Gain</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={globalStyles.card1} onPress={() => {Linking.openURL("https://www.bbcgoodfood.com/recipes/collection/pie-recipes")}}>
-        <Image
-          source = {require('../assets/pie.jpg')}
-          style={globalStyles.image}
-        />
-        <Text style={globalStyles.cardtext}>Recipe: Easy Pie</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={globalStyles.card1} onPress={() => {Linking.openURL("https://www.bettersleep.com/blog/")}}>
-        <Image
-          source = {require('../assets/guySleeping.jpg')}
-          style={globalStyles.image}
-        />
-        <Text style={globalStyles.cardtext}>Blog: Better Sleep</Text>
-      </TouchableOpacity>
+    {resources.map((resource) => (
+          <TouchableOpacity
+            style={styles.card1}
+            key={resource.id}
+            onPress={() => {
+              Linking.openURL(resource.link);
+            }}
+          >
+            <Image source={{ uri: resource.image }} style={styles.image} />
+            <Text style={styles.cardtext}>{resource.title}</Text>
+          </TouchableOpacity>
+          ))}
     </View>
     </View>
     </ScrollView>
@@ -141,38 +136,41 @@ const styles = StyleSheet.create({
       shadowColor: '#000',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: .5,
-    shadowRadius: 5,
+    shadowRadius: 3,
     elevation: 25,
-      width: 341,
-      height: 177,
-      padding: 40,
-      backgroundColor: '#FFF',
-      alignItems: 'center',
-      textAlign:'center',
-      borderRadius: 15,
-      cloud: "#0000",
-      padding: 10,
-      marginBottom: 35,
+    width: 320,
+    height: 200,
+    padding: 40,
+    backgroundColor: '#FFF',
+    alignItems: 'center',
+    borderRadius: 20,
+    cloud: "#0000",
+    padding: 10,
+    marginBottom: 35,
+    justifyContent: 'center',
+    position: 'relative'
     },
     image: {
       position: 'absolute',
-      overflow: "hidden",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      width: 341,
-      height: 130,
-      borderTopLeftRadius: 15,
-      borderTopRightRadius: 15,
+    overflow: "hidden",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    width: 320,
+    height: 135,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderWidth: 2,
+    borderColor: 'green',
     },
     cardtext: {
-      flex: 1,
       position: 'absolute',
-      color: "#000000",
-      textAlign: "center",
-      bottom: 8,
-      fontSize: 22,
-      fontFamily: 'Avenir'
+    color: "#000000",
+    bottom: 17,
+    textAlign: 'left',
+    fontSize: 24,
+    fontFamily: 'Gotham-Light',
+    textAlignVertical: 'center',
     },
 })

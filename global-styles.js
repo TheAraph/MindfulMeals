@@ -48,28 +48,28 @@ const styles = StyleSheet.create({
         height: 60,
         borderRadius: 73,
         elevation: 3,
-        backgroundColor: '#7C9A3E',
+        backgroundColor: '#33A133',
         margin: 10,
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: "black",
         alignSelf: 'center'
       },
       ButtonText:{
-        fontFamily: "Helvetica",
+        fontFamily: "Gotham-Bold",
         fontSize: 24,
         fontWeight: 'bold',
         color: '#fff'
       },
       MindfulMeals:{
-        fontFamily: "Arial",
+        fontFamily: "Gotham-Black",
         fontSize: 61,
-        color: "#6EB7F7",
+        color: "#0072C6",
         marginTop: 10,
         fontWeight: 'bold',
         textAlign: "center"
       },
       HealthifyUserName:{
-        fontFamily: "AvenirNext-Heavy",
+        fontFamily: "Gotham-Bold",
         fontSize: 61,
         color: "#D5342B",
         fontWeight: 'bold',
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         elevation: 25,
       },
       Headline6:{
-        fontFamily: "Arial",
+        fontFamily: "Gotham-Light",
         fontSize: 16,
         color: "#000",
         margin: 10,
@@ -89,21 +89,21 @@ const styles = StyleSheet.create({
         textAlign: "center"
       },
       Headline6Bold:{
-        fontFamily: "Arial",
+        fontFamily: "Gotham-Bold",
         fontSize: 16,
         color: "#000",
         margin: 10,
         fontWeight: 'bold'
       },
       Headline5:{
-        fontFamily: "Arial",
+        fontFamily: "Gotham-Light",
         fontSize: 24,
         color: "#000",
         margin: 10,
         alignItems: "center"
       },
       Headline5Bold:{
-        fontFamily: "Arial",
+        fontFamily: "Gotham-Bold",
         fontSize: 24,
         color: "#000",
         margin: 10,
@@ -111,22 +111,31 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
       },
       Headline4:{
-        fontFamily: "Helvetica",
+        fontFamily: "Gotham-Light",
         fontSize: 34,
         color: "#000",
         margin: 10,
         alignItems: "center"
       },
       Headline4Bold:{
-        fontFamily: "Helvetica",
+        fontFamily: "Gotham-Bold",
         fontSize: 34,
         color: "#000",
         margin: 10,
         alignItems: "center",
         fontWeight: 'bold'
       },
+      Headline3Bold:{
+        fontFamily: "Gotham-Bold",
+        fontSize: 48,
+        color: "#000",
+        margin: 10,
+        alignItems: "center",
+        fontWeight: 'bold',
+        textAlign: 'center'
+      },
       Headline2Black:{
-        fontFamily: "Helvetica",
+        fontFamily: "Gotham-Black",
         fontSize: 61,
         color: "#000",
         margin: 10,
@@ -139,14 +148,14 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         fontSize: 24,
         textDecorationLine: "underline",
-        fontFamily: "Arial"
+        fontFamily: "Gotham-Bold"
       },
       Button2TextGreen:{
         fontWeight:"bold",
-        fontSize: 24,
+        fontSize: 16,
         textDecorationLine: "underline",
-        fontFamily: "Arial",
-        color: "#7C9A3E"
+        fontFamily: "Gotham-Bold",
+        color: "#33A133"
       },
       Button3:{
         marginBottom:20, alignItems:"center",
@@ -155,14 +164,14 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
         fontSize: 20,
         textDecorationLine: "underline",
-        fontFamily: "Arial"
+        fontFamily: "Gotham-Bold"
       },
       Button3TextGreen:{
         fontWeight:"bold",
         fontSize: 20,
         textDecorationLine: "underline",
-        fontFamily: "Arial",
-        color: "#7C9A3E"
+        fontFamily: "Gotham-Bold",
+        color: "#33A133"
       },
       card1: {
         shadowColor: '#000',
@@ -200,10 +209,10 @@ const styles = StyleSheet.create({
         textAlign: "center",
         bottom: 8,
         fontSize: 22,
-        fontFamily: 'Helvetica'
+        fontFamily: 'Gotham-Light'
       },
       infoBox: {
-        width:300, 
+        width:350, 
         height:100, 
         alignItems:'center', 
         borderBottomColor:'black', 
@@ -221,7 +230,7 @@ const styles = StyleSheet.create({
       fontWeight:'600', 
       fontSize:26, 
       color:'#4c4c4c',
-      fontFamily: 'Helvetica'
+      fontFamily: 'Gotham-Light'
     },
     deleteBox: {
       width:150, 
@@ -235,7 +244,7 @@ const styles = StyleSheet.create({
       fontWeight:'500', 
       fontSize:20, 
       color:'#d5342b',
-      fontFamily: 'Helvetica'
+      fontFamily: 'Gotham-Bold'
    },
   })
 
