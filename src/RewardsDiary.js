@@ -30,7 +30,9 @@ const RewardsDiary = () => {
       userRef.update({
         rewardsDiary: firebase.firestore.FieldValue.arrayUnion({
           diaryText: diaryText,
-          sliderValue: sliderValue
+          sliderValue: sliderValue,
+          timeofdiary: new Date().toISOString(),
+          status: "hide"
         })
       }).then(() => {
         console.log('Diary entry added successfully!');

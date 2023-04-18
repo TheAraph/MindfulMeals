@@ -38,11 +38,13 @@ const Health = () => {
   const [weight, setWeight] = useState([]);
   const [isRemainingCaloriesZero, setIsRemainingCaloriesZero] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [rewardsDiary, setRewardsDiary] = useState([])
 
   useEffect(() => {
     const unsubscribe = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).onSnapshot((snapshot) => {
       if(snapshot.exists){
         setName(snapshot.data().name);
+        setRewardsDiary(snapshot.data().rewardsDiary);
         setTotalCalories(snapshot.data().dailyCalories);
         setRemainingCalories(snapshot.data().remainingCalories);
         setCaloriePoints(snapshot.data().caloriePoints);
@@ -66,6 +68,7 @@ const Health = () => {
         if (snapshot.exists) {
           const userData = snapshot.data();
           setName(userData.name); 
+          setRewardsDiary(snapshot.data().rewardsDiary);
           setTotalCalories(userData.dailyCalories);
           setRemainingCalories(userData.remainingCalories);
           setWeight(userData.weight);
@@ -111,6 +114,15 @@ const Health = () => {
   const addFood = () => {
     navigation.navigate('LogFood');
   }
+  
+  const checkLastDiaryEntryTime = () => {
+    const lastEntry = rewardsDiary[rewardsDiary.length - 1]; // assuming the last entry is at the end of the array
+    const lastDiaryEntryTime = new Date(lastEntry.timeofdiary);
+    const currentTime = new Date();
+    const timeDifference = currentTime.getTime() - lastDiaryEntryTime.getTime();
+    const daysDifference = timeDifference / (1000 * 60 * 60 * 24); // convert time difference to days
+    return daysDifference >= 3;
+  };
 
   const lastThreeEntries = weight.length > 2 ? weight.slice(-3) : weight;
   const remainingCaloriesPercentage = (remainingCalories / totalCalories) * 100;
@@ -236,12 +248,13 @@ const Health = () => {
           <View style = {[globalStyles.newcontainer, { backgroundColor: '#33A133' }]}>
           <Text style={[globalStyles.Headline5Bold, {color: '#FFF'}]}>Calorie Points: {caloriePoints}</Text>
           </View>
-          <TouchableOpacity 
-            style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
-            onPress={() => navigation.navigate('RewardsDiary')}
-              >
-            <Text style={styles.ButtonText}>👉 Tap Me! 👈</Text>
-            </TouchableOpacity>
+          {checkLastDiaryEntryTime() && (
+              <TouchableOpacity 
+              style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
+              onPress={() => navigation.navigate('RewardsDiary')}>
+                <Text style={globalStyles.ButtonText}>👉 Tap Me! 👈</Text>
+              </TouchableOpacity>
+            )}
           <View style = {{marginTop: 10}}></View>
           {remainingCalories === 0 && (
               <Text style={[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>CONGRATS!{" "}<Emoji name="tada"/></Text>

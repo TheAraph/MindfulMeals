@@ -20,7 +20,7 @@ const Onboarding5 = () => {
     <View style={{ marginTop: 10 }}></View>
     <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}><Text style = {{fontFamily: "Gotham-Bold", color:"#33A133"}}>PLEASE NOTE:</Text></Text>
     <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>At times you will be asked to diary your thoughts about certain features of the application.</Text>
-    <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}><Text style = {{fontFamily: "Gotham-Bold"}}>Please keep an eye out for the below button,</Text> as this data will be of most help towards my findings. Thank you in advance!</Text>
+    <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}><Text style = {{fontFamily: "Gotham-Bold"}}>Please keep an eye out for the below button and give your feedback every 3/4 days,</Text> as this data will be of most help towards my findings. I encourage you to write in length. Thank you in advance!</Text>
     <View style={{ marginTop: 10 }}></View>
     <View style = {globalStyles.newcontainer}>
     <Image
