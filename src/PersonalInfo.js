@@ -67,11 +67,8 @@ const PersonalInfo = () => {
 
   return (
     <View style={globalStyles.container}>
-    <View style={[globalStyles.infoBox, {width: 340, height: 150}]}>
        <Text style={globalStyles.Headline3Bold}>{name.firstName} {name.lastName}</Text>
-       <Text style={[globalStyles.Headline5]}>{name.email}</Text>
-    </View>
-    <View style = {{marginTop:40}}></View>
+       <Text style={[globalStyles.Headline5, {marginBottom: 20}]}>{name.email}</Text>
     <TouchableOpacity onPress={() => changePassword()} style={globalStyles.Button2}>
        <Text style={globalStyles.Button2Text}>Change Password</Text>
     </TouchableOpacity>

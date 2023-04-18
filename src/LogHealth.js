@@ -7,6 +7,7 @@ import {firebase} from '../config'
 import { ScrollView } from 'react-native-gesture-handler';
 import globalStyles from '../global-styles.js'
 import { Picker } from '@react-native-picker/picker';
+import { KeyboardAvoidingView } from 'react-native';
 
 
 const LogHealth = () => {
@@ -81,7 +82,8 @@ const LogHealth = () => {
     
 
   return (
-    <ScrollView>
+    <ScrollView style = {{backgroundColor:"#FFF"}}>
+    <KeyboardAvoidingView behavior="padding" style={styles.container}>
     <View style = {globalStyles.container}>
     <View style = {{marginTop: 20}}></View>
     <Text style={globalStyles.Headline5}>Tell us about your goals!</Text>
@@ -127,7 +129,7 @@ const LogHealth = () => {
             keyboardType="number-pad"
         />
         <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
-        <Text style={globalStyles.Headline6Bold}>What is your gender?</Text>
+        <Text style={globalStyles.Headline6Bold}>Please indicate your sex/gender for BMI calculation purposes:</Text>
         </View>
           <Picker
         selectedValue={gender}
@@ -135,7 +137,6 @@ const LogHealth = () => {
         style={{ justifyContent: 'center', borderWidth: 1, borderColor: 'black', borderRadius: 30, alignSelf: 'center', width: 320 }}>
         <Picker.Item label="Male" value="Male" />
         <Picker.Item label="Female" value="Female" />
-        <Picker.Item label="Other" value="Other" />
         </Picker>
         <View style={{ alignSelf: 'flex-start', marginLeft: 0 }}>
         <Text style={globalStyles.Headline6Bold}>How much do you exercise?</Text>
@@ -172,6 +173,7 @@ const LogHealth = () => {
         <View style = {{marginBottom: 100}}></View>
     </View>
     </View>
+    </KeyboardAvoidingView>
     </ScrollView>
   )
   }

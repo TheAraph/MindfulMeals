@@ -5,6 +5,8 @@ import {firebase} from '../config'
 import globalStyles from '../global-styles.js'
 import * as Font from 'expo-font';
 import { useEffect } from 'react'
+import { ScrollView } from 'react-native-gesture-handler'
+import { KeyboardAvoidingView } from 'react-native'
 
 const Signin = () => {
     //login variables
@@ -54,6 +56,9 @@ const Signin = () => {
   }
 
   return (
+    <ScrollView style = {{backgroundColor: "#FFF"}}>
+    <KeyboardAvoidingView behavior="padding" >
+    <View style = {{marginTop: 20}}></View>
     <View style = {globalStyles.container}>
     <View style = {{marginTop: 20}}></View>
     <Image 
@@ -107,6 +112,8 @@ const Signin = () => {
             
         </TouchableOpacity>
     </View>
+    </KeyboardAvoidingView>
+    </ScrollView>
   )
 }
 

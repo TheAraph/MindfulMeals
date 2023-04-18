@@ -7,6 +7,7 @@ import globalStyles from '../global-styles.js'
 import Emoji from 'react-native-emoji';
 import { Picker } from '@react-native-picker/picker'
 import LogHealth from './LogHealth'
+import { KeyboardAvoidingView } from 'react-native'
 
 const Register = () => {
 
@@ -157,7 +158,8 @@ const Register = () => {
   }
 
 return(
-  <ScrollView>
+  <ScrollView style = {{backgroundColor: "#FFF"}}>
+  <KeyboardAvoidingView behavior="padding" >
   <View style = {globalStyles.container}>
   <View style = {{marginTop: 70}}></View>
   <Image 
@@ -225,8 +227,9 @@ return(
             <Text style = {globalStyles.Button3Text}>Back to Login</Text>
             
         </TouchableOpacity>
-        <View style = {{marginBottom: 100}}></View>
+        <View style = {{marginBottom: 40}}></View>
     </View>
+    </KeyboardAvoidingView>
     </ScrollView>
 )
               }

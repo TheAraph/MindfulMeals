@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import {firebase} from '../config'
 import { ScrollView } from 'react-native-gesture-handler';
 import globalStyles from '../global-styles'
+import { KeyboardAvoidingView } from 'react-native';
 
 const LogFood = () => {
     const navigation = useNavigation()

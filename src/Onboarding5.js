@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 import { ScrollView } from 'react-native-gesture-handler'
 import Signin from './Signin'
 
-const Onboarding4 = () => {
+const Onboarding5 = () => {
     //login variables
   const navigation = useNavigation()
 
@@ -18,24 +18,26 @@ const Onboarding4 = () => {
     <View style={{ marginTop: 50 }}></View>
     <Text style={globalStyles.MindfulMeals}>MINDFUL MEALS</Text>
     <View style={{ marginTop: 10 }}></View>
-    <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>Keep yourself <Text style = {{fontFamily: "Gotham-Bold", color:"#33A133"}}>educated</Text> with resources!</Text>
+    <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}><Text style = {{fontFamily: "Gotham-Bold", color:"#33A133"}}>PLEASE NOTE:</Text></Text>
+    <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>At times you will be asked to diary your thoughts about certain features of the application.</Text>
+    <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}><Text style = {{fontFamily: "Gotham-Bold"}}>Please keep an eye out for the below button,</Text> as this data will be of most help towards my findings. Thank you in advance!</Text>
     <View style={{ marginTop: 10 }}></View>
+    <View style = {globalStyles.newcontainer}>
     <Image
-          style={{ height: 400, width: 210 }}
-          source={require('../assets/Onboarding4.png')}
+          style={{ height: 100, width: 340, borderRadius:20 }}
+          source={require('../assets/DiaryExample.png')}
         />
-            
+    </View>
             <View style={{ marginTop: 20 }}></View>
             <TouchableOpacity
               style={globalStyles.Button}
-              onPress={() => navigation.navigate('Onboarding5')}>
+              onPress={() => navigation.navigate('Register')}>
               <Text style={globalStyles.ButtonText}>Continue</Text>
             </TouchableOpacity>
-            <Text style={globalStyles.Headline6}>3/3</Text>
     </View>
     </ScrollView>
   )
 }
 
-export default Onboarding4
+export default Onboarding5
 

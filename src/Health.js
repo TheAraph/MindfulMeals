@@ -8,6 +8,11 @@ import { useNavigation } from '@react-navigation/native'
 import LogWeight from "../src/LogWeight";
 import LogHealth from "../src/LogHealth";
 import LogFood from "../src/LogFood"
+import RewardsDiary from './RewardsDiary';
+import SelfMonitoringDiary from './SelfMonitoringDiary';
+import TailoringDiary from './TailoringDiary';
+import MotivationDiary from './MotivationDiary';
+import PraiseDiary from './PraiseDiary';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -119,9 +124,15 @@ const Health = () => {
             <View style={globalStyles.container}>
             <Text style={globalStyles.Headline2Black}>Oops! 😄</Text>
             <Text style={[globalStyles.Headline5Bold, {textAlign: 'center'}]}>It seems that you have{"\n"}not chosen to track your{"\n"}calories and health data yet</Text>
-            <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>To start tracking, tap the button{"\n"}below & enter your details!</Text>
+            <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>To start tracking, tap the button below & enter your details!</Text>
             <View style = {{marginTop:40}}></View>
             <Text style={[globalStyles.Headline6, {textAlign: 'center'}]}>Note: You<Text style={{ fontWeight: 'bold' }}> don't</Text> have to track your health{"\n"}data if you don't want to <Emoji name = "wink"></Emoji></Text>
+            <TouchableOpacity 
+            style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
+            onPress={() => navigation.navigate('TailoringDiary')}
+              >
+            <Text style={styles.ButtonText}>👉 Tap Me! 👈</Text>
+            </TouchableOpacity>
             <TouchableOpacity 
             style={globalStyles.Button}
             onPress={() => navigation.navigate('LogHealth')}
@@ -144,6 +155,18 @@ const Health = () => {
           }
         }}
         />
+        <Stack.Screen 
+          name="TailoringDiary" 
+          component={TailoringDiary} 
+          options={{
+            headerShown: false,
+          headerTitle: () => <Header name = "Tailoring Diary"/>,
+          headerStyle: {
+            height:60,
+            backgroundColor: '#0072C6',
+          }
+        }}
+        />
         </Stack.Navigator>
     );
   }
@@ -156,21 +179,6 @@ const Health = () => {
       <ScrollView style = {{backgroundColor: '#FFF'}}> 
     <View style = {{marginTop: 20}}></View>
         <View style={globalStyles.container}>
-        {remainingCalories === totalCalories && (
-              <Text style={[globalStyles.Headline6, {color: "#000", textAlign: 'center'}]}><Text style = {[globalStyles.Headline5Bold, {color: "#FF4D4D"}]}>Start your day off well! 🍳</Text></Text>
-            )}
-        {(remainingCalories > totalCalories * 0.75 && remainingCalories < totalCalories - 0.01) && (
-              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're doing great 😄{'\n'}<Text style = {[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>Keep it up!</Text></Text>
-            )}
-            {(remainingCalories > totalCalories * 0.51 && remainingCalories < totalCalories * 0.74) && (
-              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're making progress 💪{'\n'}<Text style = {[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>Well done!</Text></Text>
-            )}
-            {(remainingCalories > totalCalories * 0.26 && remainingCalories < totalCalories * 0.50) && (
-              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're over half way there 🤩{'\n'}<Text style = {[globalStyles.Headline4Bold, {color: "#FF4D4D"}]}>That's Amazing!</Text></Text>
-            )}
-            {(remainingCalories > 0 && remainingCalories < totalCalories * 0.25) && (
-              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You are so close, just a{'\n'}few more to go 👏{'\n'}<Text style = {[globalStyles.Headline4Bold, {color: "#FF4D4D"}]}>You can do this!</Text></Text>
-            )}
             <View style = {{marginTop: 0}}></View>
         <View style = {globalStyles.container}>
 
@@ -222,20 +230,57 @@ const Health = () => {
   }}
   />
 )}
+<View style = {{marginTop: 10}}></View>
           <Text style={globalStyles.Headline6Bold}>Finish your Daily Calories and get</Text>
           <Text style={[globalStyles.Headline5Bold, {marginTop: 0}]}>100 CALORIE POINTS 🥇</Text>
-          <View style = {{marginTop: 20}}></View>
           <View style = {[globalStyles.newcontainer, { backgroundColor: '#33A133' }]}>
           <Text style={[globalStyles.Headline5Bold, {color: '#FFF'}]}>Calorie Points: {caloriePoints}</Text>
           </View>
-          <View style = {{marginTop: 20}}></View>
+          <TouchableOpacity 
+            style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
+            onPress={() => navigation.navigate('RewardsDiary')}
+              >
+            <Text style={styles.ButtonText}>👉 Tap Me! 👈</Text>
+            </TouchableOpacity>
+          <View style = {{marginTop: 10}}></View>
           {remainingCalories === 0 && (
               <Text style={[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>CONGRATS!{" "}<Emoji name="tada"/></Text>
             )}
           {remainingCalories === 0 && (
               <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D"}]}>You hit your calorie goal!</Text>
             )}
-          <Text style={globalStyles.Headline2Black}>Calories 🔥</Text>
+            {remainingCalories === 0 && (
+              <TouchableOpacity 
+            style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
+            onPress={() => navigation.navigate('PraiseDiary')}
+              >
+            <Text style={styles.ButtonText}>👉 Tap Me! 👈</Text>
+            </TouchableOpacity>
+            )}
+          <Text style={[globalStyles.Headline2Black, {marginTop:0}]}>Calories 🔥</Text>
+          {remainingCalories === totalCalories && (
+              <Text style={[globalStyles.Headline6, {color: "#000", textAlign: 'center'}]}><Text style = {[globalStyles.Headline5Bold, {color: "#FF4D4D"}]}>Start your day off well! 🍳</Text></Text>
+            )}
+        {(remainingCalories > totalCalories * 0.75 && remainingCalories < totalCalories - 0.01) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're doing great 😄{'\n'}<Text style = {[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>Keep it up!</Text></Text>
+            )}
+            {(remainingCalories > totalCalories * 0.51 && remainingCalories < totalCalories * 0.74) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're making progress 💪{'\n'}<Text style = {[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>Well done!</Text></Text>
+            )}
+            {(remainingCalories > totalCalories * 0.26 && remainingCalories < totalCalories * 0.50) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You're over half way there 🤩{'\n'}<Text style = {[globalStyles.Headline4Bold, {color: "#FF4D4D"}]}>That's Amazing!</Text></Text>
+            )}
+            {(remainingCalories > 0 && remainingCalories < totalCalories * 0.25) && (
+              <Text style={[globalStyles.Headline5Bold, {color: "#FF4D4D", textAlign: 'center'}]}>You are so close, just a{'\n'}few more to go 👏{'\n'}<Text style = {[globalStyles.Headline4Bold, {color: "#FF4D4D"}]}>You can do this!</Text></Text>
+            )}
+            {(remainingCalories > 0 && remainingCalories < totalCalories * 0.25) && (
+              <TouchableOpacity 
+            style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
+            onPress={() => navigation.navigate('MotivationDiary')}
+              >
+            <Text style={styles.ButtonText}>👉 Tap Me! 👈</Text>
+            </TouchableOpacity>
+            )}
           <View style={styles.progressBar}>
       <CircularProgress
         size={200}
@@ -315,7 +360,12 @@ const Health = () => {
       
         <View style = {{marginTop:20, justifyContent: 'center', alignSelf: 'center'}}><Text style={globalStyles.Headline5}>You're on the right track!</Text></View>
         <View style = {{justifyContent: 'center', alignSelf: 'center'}}><Text style={globalStyles.Headline5}>Just <Text style = {globalStyles.Headline5Bold}>keep pushing</Text> <Emoji name = "fire"></Emoji></Text></View>
-        <View style = {{marginTop:20}}></View>
+        <TouchableOpacity 
+            style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
+            onPress={() => navigation.navigate('SelfMonitoringDiary')}
+              >
+            <Text style={styles.ButtonText}>👉 Tap Me! 👈</Text>
+            </TouchableOpacity>
         <TouchableOpacity 
             style={globalStyles.Button}
             onPress={() => navigation.navigate('LogHealth')}
@@ -334,6 +384,54 @@ const Health = () => {
           options={{
             headerShown: false ,
           headerTitle: () => <Header name = "Log Food"/>,
+          headerStyle: {
+            height:60,
+            backgroundColor: '#0072C6',
+          }
+        }}
+        />
+        <Stack.Screen 
+          name="RewardsDiary" 
+          component={RewardsDiary} 
+          options={{
+            headerShown: false ,
+          headerTitle: () => <Header name = "Rewards Diary"/>,
+          headerStyle: {
+            height:60,
+            backgroundColor: '#0072C6',
+          }
+        }}
+        />
+        <Stack.Screen 
+          name="MotivationDiary" 
+          component={MotivationDiary} 
+          options={{
+            headerShown: false ,
+          headerTitle: () => <Header name = "Motivation Diary"/>,
+          headerStyle: {
+            height:60,
+            backgroundColor: '#0072C6',
+          }
+        }}
+        />
+        <Stack.Screen 
+          name="PraiseDiary" 
+          component={PraiseDiary} 
+          options={{
+            headerShown: false ,
+          headerTitle: () => <Header name = "Praise Diary"/>,
+          headerStyle: {
+            height:60,
+            backgroundColor: '#0072C6',
+          }
+        }}
+        />
+        <Stack.Screen 
+          name="SelfMonitoringDiary" 
+          component={SelfMonitoringDiary} 
+          options={{
+            headerShown: false ,
+          headerTitle: () => <Header name = "Self-Monitoring Diary"/>,
           headerStyle: {
             height:60,
             backgroundColor: '#0072C6',

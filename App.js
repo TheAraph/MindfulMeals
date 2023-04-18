@@ -14,6 +14,7 @@ import Onboarding1 from "./src/Onboarding1";
 import Onboarding2 from "./src/Onboarding2";
 import Onboarding3 from "./src/Onboarding3";
 import Onboarding4 from "./src/Onboarding4";
+import Onboarding5 from "./src/Onboarding5";
 import Home from "./src/Home";
 import Header from "./components/Header";
 import Health from "./src/Health";
@@ -120,6 +121,14 @@ function App(){
           <Stack.Screen 
           name = "Onboarding4" 
           component = {Onboarding4}
+
+          options={{ 
+            headerShown: false 
+          }}
+          />
+          <Stack.Screen 
+          name = "Onboarding5" 
+          component = {Onboarding5}
 
           options={{ 
             headerShown: false 
