@@ -116,12 +116,17 @@ const Health = () => {
   }
   
   const checkLastDiaryEntryTime = () => {
-    const lastEntry = rewardsDiary[rewardsDiary.length - 1]; // assuming the last entry is at the end of the array
-    const lastDiaryEntryTime = new Date(lastEntry.timeofdiary);
-    const currentTime = new Date();
-    const timeDifference = currentTime.getTime() - lastDiaryEntryTime.getTime();
-    const daysDifference = timeDifference / (1000 * 60 * 60 * 24); // convert time difference to days
-    return daysDifference >= 3;
+    if (rewardsDiary?.length > 0) {
+      const lastEntry = rewardsDiary[rewardsDiary.length - 1]; // assuming the last entry is at the end of the array
+      const lastDiaryEntryTime = new Date(lastEntry.timeofdiary);
+      const currentTime = new Date();
+      const timeDifference = currentTime.getTime() - lastDiaryEntryTime.getTime();
+      const daysDifference = timeDifference / (1000 * 60 * 60 * 24); // convert time difference to days
+      return daysDifference >= 3;
+    } else {
+      // Return true or false based on your desired behavior when rewardsDiary is not available
+      return true; // or return true, or any other default value
+    }
   };
 
   const lastThreeEntries = weight.length > 2 ? weight.slice(-3) : weight;
