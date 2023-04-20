@@ -3,9 +3,12 @@ import { View, Text, Image } from 'react-native';
 import globalStyles from '../global-styles'
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
+import TouchableOpacity from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 const RecipeDetailsScreen = ({ route }) => {
   const { recipe } = route.params;
+  const navigation = useNavigation();
 
   return (
     <ScrollView style = {{backgroundColor: '#FFF'}}>
@@ -65,7 +68,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "center",
         textAlign: "center",
-        fontWeight: 'bold'
   },
   card1category: {
     position: 'absolute', // Make this absolute positioned.

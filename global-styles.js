@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
       ButtonText:{
         fontFamily: "Gotham-Bold",
         fontSize: 24,
-        fontWeight: 'bold',
         color: '#fff'
       },
       MindfulMeals:{
@@ -65,14 +64,12 @@ const styles = StyleSheet.create({
         fontSize: 61,
         color: "#0072C6",
         marginTop: 10,
-        fontWeight: 'bold',
         textAlign: "center"
       },
       HealthifyUserName:{
         fontFamily: "Gotham-Bold",
         fontSize: 61,
         color: "#D5342B",
-        fontWeight: 'bold',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: .1,
@@ -93,7 +90,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#000",
         margin: 10,
-        fontWeight: 'bold'
       },
       Headline5:{
         fontFamily: "Gotham-Light",
@@ -108,7 +104,6 @@ const styles = StyleSheet.create({
         color: "#000",
         margin: 10,
         alignItems: "center",
-        fontWeight: 'bold'
       },
       Headline4:{
         fontFamily: "Gotham-Light",
@@ -123,7 +118,6 @@ const styles = StyleSheet.create({
         color: "#000",
         margin: 10,
         alignItems: "center",
-        fontWeight: 'bold'
       },
       Headline3Bold:{
         fontFamily: "Gotham-Bold",
@@ -131,7 +125,6 @@ const styles = StyleSheet.create({
         color: "#000",
         margin: 10,
         alignItems: "center",
-        fontWeight: 'bold',
         textAlign: 'center'
       },
       Headline2Black:{
@@ -139,19 +132,16 @@ const styles = StyleSheet.create({
         fontSize: 61,
         color: "#000",
         margin: 10,
-        fontWeight: 'bold'
       },
       Button2:{
         marginBottom:20, alignItems:"center",
       },
       Button2Text:{
-        fontWeight:"bold",
         fontSize: 24,
         textDecorationLine: "underline",
         fontFamily: "Gotham-Bold"
       },
       Button2TextGreen:{
-        fontWeight:"bold",
         fontSize: 16,
         textDecorationLine: "underline",
         fontFamily: "Gotham-Bold",
@@ -161,13 +151,11 @@ const styles = StyleSheet.create({
         marginBottom:20, alignItems:"center",
       },
       Button3Text:{
-        fontWeight:"bold",
         fontSize: 20,
         textDecorationLine: "underline",
         fontFamily: "Gotham-Bold"
       },
       Button3TextGreen:{
-        fontWeight:"bold",
         fontSize: 20,
         textDecorationLine: "underline",
         fontFamily: "Gotham-Bold",
@@ -227,7 +215,6 @@ const styles = StyleSheet.create({
       bottom:60
      }
      ,password: {
-      fontWeight:'600', 
       fontSize:26, 
       color:'#4c4c4c',
       fontFamily: 'Gotham-Light'
@@ -241,7 +228,6 @@ const styles = StyleSheet.create({
       bottom:10
    },
    delete: {
-      fontWeight:'500', 
       fontSize:20, 
       color:'#d5342b',
       fontFamily: 'Gotham-Bold'

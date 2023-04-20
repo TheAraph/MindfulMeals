@@ -138,6 +138,7 @@ const Health = () => {
         <Stack.Screen
           name="Health"
           component={() => (
+          <ScrollView style = {{backgroundColor: "#FFF"}}>
             <View style={globalStyles.container}>
             <Text style={globalStyles.Headline2Black}>Oops! 😄</Text>
             <Text style={[globalStyles.Headline5Bold, {textAlign: 'center'}]}>It seems that you have{"\n"}not chosen to track your{"\n"}calories and health data yet</Text>
@@ -157,6 +158,7 @@ const Health = () => {
             <Text style={styles.ButtonText}>Start Tracking</Text>
             </TouchableOpacity>
             </View>
+            </ScrollView>
   )}
   options={{ headerShown: false }}
 />
@@ -323,7 +325,8 @@ const Health = () => {
             )}
       </CircularProgress>
       <View style = {{marginTop: 20}}></View>
-      <TouchableOpacity style={globalStyles.Button2} onPress={addFood}><Text style = {[globalStyles.Button2Text, {color: "#33A133", marginBottom: -20}]}>Update</Text></TouchableOpacity>
+      <TouchableOpacity style={globalStyles.Button2} onPress={addFood}><Text style = {[globalStyles.Button2Text, {color: "#33A133", marginBottom: 0}]}>Update</Text></TouchableOpacity>
+      <View style = {{marginTop: -20}}></View>
       </View>
     </View>
     <Text style={globalStyles.Headline2Black}>Weight 💪</Text>
@@ -509,7 +512,6 @@ const styles = StyleSheet.create({
   },
   progressValue: {
     fontSize: 24,
-    fontWeight: 'bold',
     color: '#000',
   },
   progressLabel: {
@@ -522,7 +524,6 @@ const styles = StyleSheet.create({
     color: "#FF4D4D",
     margin: 10,
     alignItems: "center",
-    fontWeight: 'bold'
   },
   Headline4Bold:{
     fontFamily: "Gotham-Bold",
@@ -530,12 +531,10 @@ const styles = StyleSheet.create({
     color: "#FF4D4D",
     margin: 10,
     alignItems: "center",
-    fontWeight: 'bold'
   },
   ButtonText:{
     fontFamily: "Gotham-Bold",
     fontSize: 24,
-    fontWeight: 'bold',
     color: '#fff',
   },
 })

@@ -70,7 +70,7 @@ const Login = () => {
             <Text style={[globalStyles.Headline5Bold, { color: '#33A133' }]}>
               A mindful health platform
             </Text>
-            <View style={{ marginTop: 80 }}></View>
+            <View style={{ marginTop: 40 }}></View>
             <TouchableOpacity
               style={globalStyles.Button}
               onPress={() => navigation.navigate('Signin')}>

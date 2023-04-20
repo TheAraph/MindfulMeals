@@ -57,6 +57,9 @@ const Lunch = () => {
     <ScrollView style={{ backgroundColor: '#FFF', padding: 20 }}>
 <View style = {globalStyles.container}>
 <Text style = {[globalStyles.Headline3Bold, {color: "#0072C6"}]}>Lunch 🌯</Text>
+<TouchableOpacity style = {globalStyles.Button2} onPress={() => navigation.navigate('Home')}>
+  <Text style = {[globalStyles.Button2Text, {color: "#33A133"}]}>Back</Text>
+</TouchableOpacity>
 <View style = {{marginTop:10}}></View>
 {recipes.map((item) => (
     <TouchableOpacity

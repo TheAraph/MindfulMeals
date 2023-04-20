@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         alignSelf: "center",
         textAlign: "center",
-        fontWeight: 'bold'
   },
   card2: {
     shadowColor: '#000',
@@ -313,7 +312,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Gotham-Bold',
     textAlignVertical: 'center',
-    fontWeight: 'bold'
   },
   textInput:{
       alignItems: 'center',
@@ -343,7 +341,6 @@ const styles = StyleSheet.create({
     ButtonText:{
       fontFamily: "Gotham-Bold",
       fontSize: 34,
-      fontWeight: 'bold',
       color: '#fff'
     },
     Headline4:{
@@ -361,10 +358,8 @@ const styles = StyleSheet.create({
       fontSize: 61,
       color: "#000",
       margin: 10,
-      fontWeight: 'bold'
     },
     Button2Text:{
-      fontWeight:"bold",
       fontSize: 16,
       textDecorationLine: "underline",
       fontFamily: "Gotham-Bold"
@@ -374,6 +369,5 @@ const styles = StyleSheet.create({
       fontSize: 24,
       color: "#000",
       fontStyle: 'italic',
-      fontWeight: 'bold'
     }
 })

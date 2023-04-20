@@ -18,7 +18,7 @@ const LogHealth = () => {
     const [weight, setWeight] = useState([])
     const [waterGoal, setWaterGoal] = useState('')
     const [exerciseLevel, setExerciseLevel] = useState('Sedentary');
-    const [lossOrGain, setLossOrGain] = useState('Lose');
+    const [lossOrGain, setLossOrGain] = useState('lose');
     const [gender, setGender] = useState('Male') 
 
     const updateHealth = async () => {
@@ -83,7 +83,6 @@ const LogHealth = () => {
 
   return (
     <ScrollView style = {{backgroundColor:"#FFF"}}>
-    <KeyboardAvoidingView behavior="padding" style={styles.container}>
     <View style = {globalStyles.container}>
     <View style = {{marginTop: 20}}></View>
     <Text style={globalStyles.Headline5}>Tell us about your goals!</Text>
@@ -173,7 +172,6 @@ const LogHealth = () => {
         <View style = {{marginBottom: 100}}></View>
     </View>
     </View>
-    </KeyboardAvoidingView>
     </ScrollView>
   )
   }

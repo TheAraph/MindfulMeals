@@ -84,10 +84,11 @@ const LogWeight = () => {
 
   return (
       <View style={globalStyles.container}>
+      <Text style = {[globalStyles.Headline6Bold, {padding:10, textAlign: 'center'}]}>Please note that by updating your weight, your daily calorie goal will be updated too</Text>
       <Text style={globalStyles.Headline5Bold}>Enter New Weight:</Text>
       <TextInput
             style={globalStyles.textInput}
-            placeholder="Current Weight"
+            placeholder="New Weight"
             onChangeText={(weight) => setWeight(weight)}
             keyboardType="number-pad"
             autoCorrect={false}
