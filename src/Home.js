@@ -17,9 +17,11 @@ import Header from '../components/Header';
 const Stack = createStackNavigator();
 
 const Home = () => {
+  // Set variables
   const [name, setName] = useState('')
   const [recipes, setRecipes] = useState([])
 
+  // Use navigation
   const navigation = useNavigation();
 
   const getRecipeDetails = async (recipeId) => {
@@ -33,7 +35,7 @@ const Home = () => {
     return recipeData;
   };
   
-
+// Get username from firestore user database and set name
   useEffect(() => {
     firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
       .then((snapshot) => {
@@ -43,7 +45,7 @@ const Home = () => {
           console.log('User does not exist')
         }
       })
-
+// Get recipes from recipes database
     firebase.firestore().collection('recipes').get()
       .then((querySnapshot) => {
         const data = []
@@ -107,7 +109,7 @@ const Home = () => {
       <Text style={[globalStyles.Headline5Bold, { marginLeft: 30 }]}>New Recipes</Text>
       <View style={globalStyles.container}>
         <View style={{ marginTop: 20 }}></View>
-
+{/* Output recipes in reverse to show newest ones first */}
   {recipes.reverse().map((item) => (
     <TouchableOpacity
       key={item.id}

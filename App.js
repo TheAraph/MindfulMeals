@@ -1,12 +1,13 @@
+// Import necessary components and modules
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React, {useState, useEffect} from 'react';
 import {firebase} from './config';
-// import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import globalStyles from './global-styles'
 
+// Import screens
 import Login from "./src/Login";
 import Register from "./src/Register"
 import Signin from "./src/Signin";
@@ -31,6 +32,7 @@ import * as Font from 'expo-font';
 
 const Stack = createStackNavigator();
 
+// App function
 function App(){
   
   const [initializing, setInitializing] = useState(true);
@@ -38,6 +40,7 @@ function App(){
 
   const [isFontLoaded, setIsFontLoaded] = useState(false)
 
+  // Load necessary fonts
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -52,15 +55,13 @@ function App(){
     loadFonts();
   }, [])
 
-
-
-  //Handle user state changes
+  // Handle user state changes
   function onAuthStateChanged(user){
     setUser(user);
     if (initializing) setInitializing(false);
   }
 
-  //detect state
+  // Detect state
   useEffect(() => {
     const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber;
@@ -72,7 +73,7 @@ function App(){
     return null // Return a blank screen or a loading spinner while the font is loading
   }
 
-  //If user is not logged in, show only login and signup pages
+  // If user is not logged in, show only login, onboarding and signup pages 
   if (!user){
     return (
       <Stack.Navigator>
@@ -146,7 +147,7 @@ function App(){
     );
   }
 
-
+  // Define names for screens
   const homeName = 'Home';
   const healthName = 'Health';
   const infoName = 'Resources';
@@ -157,11 +158,12 @@ function App(){
 
   <Stack.Screen name="LogWeight" component={LogWeight} />
 
-  //When user is signed in
+  // When user is signed in
   return (
     <Tab.Navigator
     initialRouteName={homeName}
     screenOptions={({route}) => ({
+      // Define bottom tabs
         tabBarIcon: ({focused, color, size}) => {
             let iconName;
             let rn = route.name;
@@ -252,6 +254,7 @@ export default () => {
   )
 }
 
+// Styles
 const styles = StyleSheet.create({
   profileBtn:{
     width: 20,

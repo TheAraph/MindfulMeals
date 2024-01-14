@@ -11,8 +11,11 @@ import { KeyboardAvoidingView } from 'react-native';
 const LogFood = () => {
     const navigation = useNavigation()
     
+    // Set variables
     const [caloriesConsumed, setCaloriesConsumed] = useState('')
     const [remainingCalories, setRemainingCalories] = useState('')
+
+    // Get remainingCalories data and set it
     useEffect(() => {
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
         .then((snapshot) => {
@@ -25,6 +28,7 @@ const LogFood = () => {
         })
       }, [])
 
+      // If calories update to 0 remaining, give 100 points
       useEffect(() => {
         const userId = firebase.auth().currentUser.uid;
         if (parseInt(remainingCalories) > 0 && parseInt(remainingCalories) - parseInt(caloriesConsumed) <= 0) {
@@ -37,6 +41,7 @@ const LogFood = () => {
         }
     }, [caloriesConsumed, remainingCalories])
 
+    //  Function to update calories that updates remainingCalories and sets the update time to be used for evaluation
     const updateFood = () => {
       const newRemainingCalories = parseInt(remainingCalories) - parseInt(caloriesConsumed)
       const updatedRemainingCalories = newRemainingCalories < 0 ? 0 : newRemainingCalories
@@ -122,13 +127,6 @@ textInput:{
     fontSize: 34,
     fontWeight: 'bold',
     color: '#fff',
-  },
-  Healthify:{
-    fontFamily: "Helvetica",
-    fontSize: 61,
-    color: "#D5342B",
-    margin: 0,
-    fontWeight: 'bold',
   },
   Headline4:{
     fontFamily: "Avenir",

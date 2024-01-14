@@ -1,3 +1,4 @@
+//Import components
 import { View, Text, TouchableOpacity, TextInput, StyleSheet, SafeAreaView, Image, FlatList} from 'react-native'
 import React, {useState, useEffect} from 'react'
 import {firebase} from '../config'
@@ -14,10 +15,12 @@ import Header from '../components/Header';
 const Stack = createStackNavigator();
 
 const Breakfast = () => {
-
+   // Use Navigation
     const navigation = useNavigation();
-
+    
+   // State to hold recipe data
     const [recipes, setRecipes] = useState([])
+    // Function to get a single recipe's details
     const getRecipeDetails = async (recipeId) => {
         const recipeSnapshot = await firestore()
           .collection('recipes')
@@ -29,6 +32,7 @@ const Breakfast = () => {
         return recipeData;
       };
 
+  // useEffect hook to load and set data when component mounts
       useEffect(() => {
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
           .then((snapshot) => {
@@ -38,17 +42,19 @@ const Breakfast = () => {
               console.log('User does not exist')
             }
           })
-    
+
+    // Firestore query to get breakfast recipes
           firebase.firestore().collection('recipes').where('category', '==', 'Breakfast').get()
           .then((querySnapshot) => {
             const data = []
             querySnapshot.forEach((doc) => {
               data.push(doc.data())
             })
-            setRecipes(data)
+            setRecipes(data) // Setting the breakfast recipes data
           })
       }, [])
 
+// Component return
   return (
     <Stack.Navigator>
     <Stack.Screen 

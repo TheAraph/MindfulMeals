@@ -4,11 +4,19 @@ import { ScrollView } from 'react-native-gesture-handler'
 import globalStyles from '../global-styles'
 import { useState, useEffect } from 'react';
 import firebase from 'firebase/compat';
+import { createStackNavigator } from '@react-navigation/stack';
+import ResourceDiary from './ResourceDiary';
+import { useNavigation } from '@react-navigation/native';
 
 const Resources = () => {
+  const Stack = createStackNavigator();
+  // Use navigation
+  const navigation = useNavigation()
 
+  // State to hold resources
   const [resources, setResources] = useState([]);
 
+  // Load and set data
   useEffect(() => {
     const unsubscribe = firebase.firestore().collection('resources')
       .onSnapshot((snapshot) => {
@@ -19,10 +27,21 @@ const Resources = () => {
   }, []);
 
   return (
+    <Stack.Navigator>
+    <Stack.Screen 
+      name="Resources" 
+      component={() => (
     <ScrollView style={{ backgroundColor: '#FFF' }}>
          <View style={globalStyles.container}>
     <View style = {{marginTop:20}}>
 
+    <TouchableOpacity 
+            style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginBottom:20}]}
+            onPress={() => navigation.navigate('ResourceDiary')}
+              >
+            <Text style={globalStyles.ButtonText}>👉 Tap Me! 👈</Text>
+            </TouchableOpacity>
+{/* Output resources */}
     {resources.map((resource) => (
           <TouchableOpacity
             style={styles.card1}
@@ -40,6 +59,24 @@ const Resources = () => {
     </ScrollView>
   )
 }
+options={{ headerShown: false }}
+/>
+<Stack.Screen 
+          name="ResourceDiary" 
+          component={ResourceDiary} 
+          options={{
+            headerShown: false,
+          headerTitle: () => <Header name = "Resource Diary"/>,
+          headerStyle: {
+            height:60,
+            backgroundColor: '#0072C6',
+          }
+        }}
+        />
+        </Stack.Navigator>
+  )
+      }
+
 
 export default Resources
 

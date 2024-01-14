@@ -11,8 +11,10 @@ import { KeyboardAvoidingView } from 'react-native';
 
 
 const LogHealth = () => {
+    // Use navigation
     const navigation = useNavigation()
 
+    // Variables
     const [age, setAge] = useState('')
     const [height, setHeight] = useState('')
     const [weight, setWeight] = useState([])
@@ -21,11 +23,13 @@ const LogHealth = () => {
     const [lossOrGain, setLossOrGain] = useState('lose');
     const [gender, setGender] = useState('Male') 
 
+    // updateHealth function
     const updateHealth = async () => {
       let exerciseValue = 0;
       let bmr = 0;
       let dailyCalories = 0;
   
+      // Set exercise value to be used for bmr calculation
       switch(exerciseLevel) {
         case 'Sedentary':
           exerciseValue = 1.2;
@@ -44,6 +48,7 @@ const LogHealth = () => {
           break;
       }
   
+      // Calculate recommended daily calories based on factors of gender, loss or gain, weight, height, age, and exercise level
       if (gender === 'Male' && lossOrGain === 'lose') {
         bmr = (10 * weight + 6.25 * height - 5 * age + 5) * exerciseValue;
         dailyCalories = Math.round((74 / 100) * bmr);
@@ -61,7 +66,7 @@ const LogHealth = () => {
         return 0;
       }
     
-      // Update the user's age, height, weight, waterGoal, gender, exerciseLevel, and lossOrGain
+      // Update the user's age, height, weight, waterGoal, gender, exerciseLevel, and lossOrGain, along with dailyCalories + remainingCalories and the last time they updated their data
       const uid = firebase.auth().currentUser.uid;
       await firebase.firestore().collection("users").doc(uid).update({
         age: age,
@@ -221,13 +226,6 @@ textInput:{
     fontSize: 34,
     fontWeight: 'bold',
     color: '#fff',
-  },
-  Healthify:{
-    fontFamily: "Helvetica",
-    fontSize: 61,
-    color: "#D5342B",
-    margin: 0,
-    fontWeight: 'bold',
   },
   Headline4:{
     fontFamily: "Avenir",

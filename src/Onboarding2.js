@@ -9,7 +9,6 @@ import { ScrollView } from 'react-native-gesture-handler'
 import Signin from './Signin'
 
 const Onboarding2 = () => {
-    //login variables
   const navigation = useNavigation()
 
   return (

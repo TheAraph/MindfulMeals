@@ -8,8 +8,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import globalStyles from '../global-styles'
 
 const LogWeight = () => {
+  // Use navigation
     const navigation = useNavigation()
     
+    // Variables
     const [weight, setWeight] = useState('')
     const [gender, setGender] = useState('')
     const [age, setAge] = useState('')
@@ -17,6 +19,7 @@ const LogWeight = () => {
     const [exerciseValue, setExerciseValue] = useState('')
     const [lossOrGain, setLossOrGain] = useState('')
 
+    // Get variables from firebase and set them to set variable
     useEffect(() => {
       firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
           .then((snapshot) => {
@@ -33,6 +36,7 @@ const LogWeight = () => {
           })
   }, [])
 
+  // Update weight function
       const updateWeight = () => {
         const db = firebase.firestore();
         const userDocRef = db.collection("users").doc(firebase.auth().currentUser.uid);
@@ -40,17 +44,11 @@ const LogWeight = () => {
           weight: firebase.firestore.FieldValue.arrayUnion(parseFloat(weight))
         })
           .then(function () {
-            console.log("Weight successfully added!");
-            console.log("gender =" + gender);
-            console.log("lossOrGain =" + lossOrGain);
-            console.log("weight =" + weight);
-            console.log("height =" + height);
-            console.log("age =" + age);
-            console.log("value =" + exerciseValue);
             // Calculate daily calories and remaining calories
             let bmr = 0;
             let dailyCalories = 0;
 
+            // Update bmr according to the new weight (since the weight makes a difference to the recommended calories)
             if (gender === 'Male' && lossOrGain === 'lose') {
               bmr = (10 * weight + 6.25 * height - 5 * age + 5) * exerciseValue;
               dailyCalories = Math.round((74 / 100) * bmr);
@@ -70,6 +68,7 @@ const LogWeight = () => {
 
             console.log("dailycalories =" + dailyCalories);
 
+            // Update daily calories
             userDocRef.update({
               dailyCalories: dailyCalories,
               remainingCalories: dailyCalories

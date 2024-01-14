@@ -8,7 +8,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import globalStyles from '../global-styles'
 import Slider from '@react-native-community/slider';
 
-const MotivationDiary = () => {
+const ResourceDiary = () => {
     const navigation = useNavigation()
 
     const [diaryText, setDiaryText] = useState(''); // State to store the user input in the TextInput
@@ -18,7 +18,7 @@ const MotivationDiary = () => {
         setSliderValue(value); // Update the state with the slider value
       };
 
-  // Function to handle adding the diary entry to the MotivationDiary array in Firebase
+  // Function to handle adding the diary entry to the ResourceDiary array in Firebase
   const handleConfirm = () => {
     // Get the current user from Firebase authentication
     const currentUser = firebase.auth().currentUser;
@@ -26,15 +26,17 @@ const MotivationDiary = () => {
       // Get the Firestore reference for the user document in Firebase
       const userRef = firebase.firestore().collection('users').doc(currentUser.uid);
 
-      // Update the MotivationDiary array in the user document with the new diary entry
+      // Update the ResourceDiary array in the user document with the new diary entry
       userRef.update({
-        motivationDiary: firebase.firestore.FieldValue.arrayUnion({
+        resourceDiary: firebase.firestore.FieldValue.arrayUnion({
           diaryText: diaryText,
-          sliderValue: sliderValue
+          sliderValue: sliderValue,
+          timeofdiary: new Date().toISOString(),
+          status: "hide"
         })
       }).then(() => {
         alert('Diary entry added successfully!');
-        navigation.navigate('Health')
+        navigation.navigate('Resources')
       }).catch((error) => {
         console.log('Error adding diary entry: ', error);
       });
@@ -44,16 +46,15 @@ const MotivationDiary = () => {
   return (
     <ScrollView style = {{backgroundColor: "#FFF"}}>
     <KeyboardAvoidingView behavior="padding" style={styles.container}>
-    <View style={{marginTop:20}}></View>
     <View style={globalStyles.container}>
     <View style={globalStyles.newcontainer}>
     <Image 
-    style={{height: 175, width: 350, borderRadius: 18,}} 
-    source={require('../assets/Motivators.png')}>
+    style={{height: 500, width: 350, borderRadius: 18,}} 
+    source={require('../assets/IMG_7179.jpg')}>
     </Image>
     </View>
     <View style={{marginTop:20}}></View>
-    <Text style={[globalStyles.Headline6Bold, {textAlign: 'center'}]}>These prompts in red aim to motivate the user to continue to reach their daily calorie goal</Text>
+    <Text style={[globalStyles.Headline6Bold, {textAlign: 'center'}]}>This feature aims to provide users with external educational expertise that they could learn from</Text>
       <Text style={[globalStyles.Headline5, {textAlign: 'center'}]}>What do you think and feel about the feature above at this moment in time?</Text>
       <View style={{marginTop:10}}></View>
       <Image 
@@ -82,7 +83,7 @@ const MotivationDiary = () => {
       <TouchableOpacity style={globalStyles.Button} onPress={handleConfirm}> 
       <Text style={globalStyles.ButtonText}>Confirm</Text>
     </TouchableOpacity>
-      <TouchableOpacity style = {globalStyles.Button} onPress = {() => navigation.navigate('Health')}>
+      <TouchableOpacity style = {globalStyles.Button} onPress = {() => navigation.navigate('Resources')}> 
         <Text style = {globalStyles.ButtonText}>Back</Text>
       </TouchableOpacity>
     </View>
@@ -91,7 +92,7 @@ const MotivationDiary = () => {
   )
 }
 
-export default MotivationDiary
+export default ResourceDiary
 
 const styles = StyleSheet.create({
   container:{

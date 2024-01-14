@@ -14,10 +14,11 @@ import Header from '../components/Header';
 const Stack = createStackNavigator();
 
 const Dinner = () => {
-
+// Use Navigation
     const navigation = useNavigation();
-
+// State to hold recipe data
     const [recipes, setRecipes] = useState([])
+    // Function to get a single recipe's details
     const getRecipeDetails = async (recipeId) => {
         const recipeSnapshot = await firestore()
           .collection('recipes')
@@ -29,6 +30,7 @@ const Dinner = () => {
         return recipeData;
       };
 
+      // useEffect hook to load and set data when component mounts
       useEffect(() => {
         firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).get()
           .then((snapshot) => {
@@ -38,17 +40,18 @@ const Dinner = () => {
               console.log('User does not exist')
             }
           })
-    
+        // Firestore query to get dinner recipes
           firebase.firestore().collection('recipes').where('category', '==', 'Dinner').get()
           .then((querySnapshot) => {
             const data = []
             querySnapshot.forEach((doc) => {
               data.push(doc.data())
             })
-            setRecipes(data)
+            setRecipes(data) // Setting the dinner recipes data
           })
       }, [])
 
+      // Component return
   return (
     <Stack.Navigator>
     <Stack.Screen 

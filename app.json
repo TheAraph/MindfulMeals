@@ -2,7 +2,7 @@
   "expo": {
     "name": "MindfulMeals",
     "slug": "MindfulMeals",
-    "description":"MindfulMeals is the ultimate recipe app that helps you stay on top of your weight, physical activity, and nutrition. With an easy-to-use interface, you can log your weight data, track your steps, and monitor your food and drink intake. Healthify makes it simple to set and track your health goals, and provides helpful insights and charts to keep you motivated. Stay on track and achieve your health goals with Healthify, the ultimate health tracking app.",
+    "description": "MindfulMeals is the ultimate recipe app that helps you stay on top of your weight, physical activity, and nutrition. With an easy-to-use interface, you can log your weight data, track your steps, and monitor your food and drink intake. Healthify makes it simple to set and track your health goals, and provides helpful insights and charts to keep you motivated. Stay on track and achieve your health goals with Healthify, the ultimate health tracking app.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/Logo.png",
@@ -19,16 +19,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.araph.MindfulMeals"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.araph.MindfulMeals",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "dd816bd6-ad1a-4ee6-93e7-929de61b5d8b"
+      }
     }
   }
 }

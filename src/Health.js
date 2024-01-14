@@ -1,3 +1,4 @@
+// Import components
 import { StatusBar } from 'expo-status-bar';
 import Header from "../components/Header";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -29,8 +30,10 @@ import { Video } from 'expo-av';
 const Stack = createStackNavigator();
 
 const Health = () => {
+  // Use Navigation
   const navigation = useNavigation()
 
+  // Load state variables
   const [name, setName] = useState('')
   const [totalCalories, setTotalCalories] = useState(0);
   const [remainingCalories, setRemainingCalories] = useState(0);
@@ -40,6 +43,7 @@ const Health = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const [rewardsDiary, setRewardsDiary] = useState([])
 
+  //  Set variables
   useEffect(() => {
     const unsubscribe = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).onSnapshot((snapshot) => {
       if(snapshot.exists){
@@ -58,6 +62,7 @@ const Health = () => {
     return unsubscribe
   }, [])
 
+    //  Set variables
   useEffect(() => {
     firebase
       .firestore()
@@ -79,6 +84,7 @@ const Health = () => {
       });
   }, []);
 
+    //  Function to check if it has been a day since last calorie update, if yes, update.
   useEffect(() => {
     const checkAndUpdateRemainingCalories = async () => {
       const userDoc = firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid);
@@ -106,15 +112,17 @@ const Health = () => {
     checkAndUpdateRemainingCalories();
   }, []);
 
-  
+  // Navigate to LogWeight screen
   const addWeight = () => {
     navigation.navigate('LogWeight');
   }
 
+  // Navigate to LogFood screen
   const addFood = () => {
     navigation.navigate('LogFood');
   }
-  
+
+  // Function to check the last diary entry time for Rewards Diary
   const checkLastDiaryEntryTime = () => {
     if (rewardsDiary?.length > 0) {
       const lastEntry = rewardsDiary[rewardsDiary.length - 1]; // assuming the last entry is at the end of the array
@@ -129,9 +137,12 @@ const Health = () => {
     }
   };
 
+  // Output only last 3 weight entries in bar chart
   const lastThreeEntries = weight.length > 2 ? weight.slice(-3) : weight;
+  // Calculate remaining calories percentage
   const remainingCaloriesPercentage = (remainingCalories / totalCalories) * 100;
 
+  // If weight is 0, this means the user has not inputted their health data, so don't show the tracking screen
   if (weight.length === 0 || weight[0] === 0) {
     return (
       <Stack.Navigator>
@@ -190,6 +201,7 @@ const Health = () => {
     );
   }
 
+  // If user has entered their health data (weight != 0), then it will show the tracking portion
   return (
     <Stack.Navigator>
         <Stack.Screen 
@@ -201,6 +213,7 @@ const Health = () => {
             <View style = {{marginTop: 0}}></View>
         <View style = {globalStyles.container}>
 
+            {/* If remaining calories = 0, show confetti from 2 directions */}
       {isRemainingCaloriesZero && (
           <ConfettiCannon
             count={200}
@@ -255,7 +268,9 @@ const Health = () => {
           <View style = {[globalStyles.newcontainer, { backgroundColor: '#33A133' }]}>
           <Text style={[globalStyles.Headline5Bold, {color: '#FFF'}]}>Calorie Points: {caloriePoints}</Text>
           </View>
+           {/* If it has been 3 days since last diary entry, show rewardsdiary button again*/}
           {checkLastDiaryEntryTime() && (
+            
               <TouchableOpacity 
               style={[globalStyles.Button, {backgroundColor: "#FF4D4D", borderWidth: 2, borderColor: "#000", marginTop:30}]}
               onPress={() => navigation.navigate('RewardsDiary')}>
@@ -263,6 +278,7 @@ const Health = () => {
               </TouchableOpacity>
             )}
           <View style = {{marginTop: 10}}></View>
+          {/* Output different prompts based on remaining calorie percentage */}
           {remainingCalories === 0 && (
               <Text style={[globalStyles.Headline3Bold, {color: "#FF4D4D"}]}>CONGRATS!{" "}<Emoji name="tada"/></Text>
             )}
@@ -302,6 +318,7 @@ const Health = () => {
             </TouchableOpacity>
             )}
           <View style={styles.progressBar}>
+          {/* Output circular progress bar for remaining calories */}
       <CircularProgress
         size={200}
         width={8}
@@ -325,6 +342,7 @@ const Health = () => {
             )}
       </CircularProgress>
       <View style = {{marginTop: 20}}></View>
+      {/* Button that takes you to add new calorie entry */}
       <TouchableOpacity style={globalStyles.Button2} onPress={addFood}><Text style = {[globalStyles.Button2Text, {color: "#33A133", marginBottom: 0}]}>Update</Text></TouchableOpacity>
       <View style = {{marginTop: -20}}></View>
       </View>
@@ -332,6 +350,7 @@ const Health = () => {
     <Text style={globalStyles.Headline2Black}>Weight 💪</Text>
           <View style = {globalStyles.newcontainer}>
           <View style = {{marginTop:20}}></View>
+          {/* Output barchart showing last 3 weight entries */}
           <BarChart
   data={{
     labels: lastThreeEntries.map((item, index) => `Entry ${weight.length - 2 + index}`),
@@ -375,6 +394,7 @@ const Health = () => {
   showValuesOnTopOfBars={true}
   verticalLabelRotation={0}
     />
+    {/* Button that takes you to add new weight entry */}
     <TouchableOpacity style={globalStyles.Button2} onPress={addWeight}><Text style = {[globalStyles.Button2Text, {color: "#33A133"}]}>New Weight Entry</Text></TouchableOpacity>
         
     </View>

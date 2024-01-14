@@ -33,7 +33,7 @@ const SelfMonitoringDiary = () => {
           sliderValue: sliderValue
         })
       }).then(() => {
-        console.log('Diary entry added successfully!');
+        alert('Diary entry added successfully!');
         navigation.navigate('Health')
       }).catch((error) => {
         console.log('Error adding diary entry: ', error);

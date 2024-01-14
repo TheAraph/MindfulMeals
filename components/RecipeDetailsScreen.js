@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import globalStyles from '../global-styles'
 import { StyleSheet } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import TouchableOpacity from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 
 const RecipeDetailsScreen = ({ route }) => {
+  // Get current recipe
   const { recipe } = route.params;
   const navigation = useNavigation();
 
+  // Return recipe details
   return (
     <ScrollView style = {{backgroundColor: '#FFF'}}>
     <View style = {{borderBottomWidth: 4, borderBottomColor: '#0072C6'}}>
@@ -23,6 +24,9 @@ const RecipeDetailsScreen = ({ route }) => {
     </View>
     <View style = {[globalStyles.container, {elevation: 2, shadowColor: '#000', shadowOffset: { width: 0, height: -4 }, shadowOpacity: 0.1, shadowRadius: 4,}]}>
       <Text style = {[globalStyles.Headline4Bold, {textAlign: 'center'}]}>{recipe.title}</Text>
+      <TouchableOpacity style = {globalStyles.Button2} onPress={() => navigation.navigate('Home')}>
+  <Text style = {[globalStyles.Button2Text, {color: "#33A133"}]}>Back</Text>
+</TouchableOpacity>
       <Text style = {[globalStyles.Headline5, {textAlign: 'center'}]}>{recipe.description}</Text>
       <View style={styles.line}></View>
       <Text style = {globalStyles.Headline6Bold}>Ingredients:</Text>

@@ -11,7 +11,7 @@ import { KeyboardAvoidingView } from 'react-native'
 
 const Register = () => {
 
-  //set variables needed
+  // set variables needed
   const navigation = useNavigation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -28,7 +28,7 @@ const Register = () => {
     
 
 
-  //registeruser function
+  // registeruser function (not used anymore - see LogHealth.js)
   registerUser = async (email, password, firstName, lastName, weight, height, waterGoal, age, exerciseLevel = 'Sedentary', lossOrGain = 'Loss', gender = 'Male') => {
 
     let exerciseValue = 0;
@@ -124,6 +124,7 @@ const Register = () => {
         firebase.firestore().collection('users')
         .doc(firebase.auth().currentUser.uid)
         .set({
+          // set all variables to 0 to be updated later by LogHealth
           firstName,
           lastName,
           email,
